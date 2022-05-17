@@ -1,0 +1,18 @@
+.place__name {
+  font-size: 24px;
+  line-height: 29.05px;
+  font-weight: 900;
+  margin: 0;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 246px;
+  width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .place__name {
+    max-width: 86%;
+  }
+}

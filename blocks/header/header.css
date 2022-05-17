@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  max-width: 880px;
+  max-height: 74px;
+  width: calc(100% - 31.25%);
+  margin: 0 auto;
+  padding-top: 45px;
+  position: relative;
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    width: calc(100% - 38px);
+    padding-top: 28px;
+  }
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  border-bottom: 1px solid;
+  border-bottom-color: #545454bb;
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .header::after {
+    left: -19px;
+    right: -19px;
+  }
+}

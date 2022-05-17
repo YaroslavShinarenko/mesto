@@ -1,0 +1,28 @@
+.profile__name {
+  font-size: 42px;
+  line-height: 48px;
+  font-weight: 500;
+  color: white;
+  margin: 0;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 294px;
+}
+
+@media screen and (max-width: 1279px) {
+  .profile__name {
+    font-size: calc(27px + (42 - 27) * ((100vw - 320px) / (1279 - 320)));
+    line-height: calc(
+      32.68px + (48 - 32.68) * ((100vw - 320px) / (1279 - 320))
+    );
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .profile__name {
+    justify-content: center;
+    padding-left: 18px;
+  }
+}
