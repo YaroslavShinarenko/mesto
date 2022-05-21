@@ -33,8 +33,8 @@ profileEditButton.addEventListener("click", popProfileForm);
 closeFormButton.addEventListener("click", popProfileForm);
 
 let editForm = document.querySelector(".popup__form");
-let nameInput = document.querySelector(".popup__input_profile_name");
-let aboutInput = document.querySelector(".popup__input_profile_about");
+let nameInput = document.querySelector("#popup__input_profile_name");
+let aboutInput = document.querySelector("#popup__input_profile_about");
 
 function formSubmitHandler(evt) {
   evt.preventDefault();
