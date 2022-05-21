@@ -12,8 +12,9 @@
   box-sizing: border-box;
   margin-bottom: 30px;
   width: 100%;
+  outline: none;
 }
 
-.popup__input:last-child {
+.popup__input:nth-last-child(2) {
   margin-bottom: 0;
 }

@@ -106,26 +106,28 @@
       <div class="popup">
         <div class="popup__container">
           <h3 class="popup__action">Редактировать профиль</h3>
-          <form class="popup__form" name="profileEditForm">
-            <div class="popup__input-fields">
-              <input
-                class="popup__input popup__input_profile_name"
-                type="text"
-                name="NameInput"
-                placeholder="Имя"
-              />
-              <input
-                class="popup__input popup__input_profile_about"
-                type="text"
-                name="AboutInput"
-                placeholder="О себе"
-              />
-            </div>
-            <button class="popup__save-button" type="submit" name="save-button">
-              Сохранить
-            </button>
+          <form class="popup__form">
+            <label class="popup__input-label" for="popup__input_profile_name"
+              >Имя</label
+            >
+            <input
+              class="popup__input popup__input_profile_name"
+              type="text"
+              name="NameInput"
+              placeholder="Имя"
+            />
+            <label class="popup__input-label" for="popup__input_profile_about"
+              >О себе</label
+            >
+            <input
+              class="popup__input popup__input_profile_about"
+              type="text"
+              name="AboutInput"
+              placeholder="О себе"
+            />
+            <button class="popup__save-button">Сохранить</button>
           </form>
-          <button class="popup__close-button" name="close-button"></button>
+          <button class="popup__close-button" type="submit"></button>
         </div>
       </div>
     </main>

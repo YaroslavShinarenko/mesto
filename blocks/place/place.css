@@ -1,5 +1,5 @@
 .place {
   display: flex;
   flex-direction: column;
-  min-width: 282px;
+  width: 282px;
 }
