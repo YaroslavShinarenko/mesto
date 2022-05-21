@@ -45,7 +45,7 @@
             />
             <div class="place__description">
               <h2 class="place__name">Карачаевск</h2>
-              <div class="place__like-button"></div>
+              <button class="place__like-button"></button>
             </div>
           </li>
 
@@ -57,7 +57,7 @@
             />
             <div class="place__description">
               <h2 class="place__name">Гора Эльбрус</h2>
-              <div class="place__like-button"></div>
+              <button class="place__like-button"></button>
             </div>
           </li>
 
@@ -65,7 +65,7 @@
             <img class="place__photo" src="./images/Dombay.jpg" alt="Домбай" />
             <div class="place__description">
               <h2 class="place__name">Домбай</h2>
-              <div class="place__like-button"></div>
+              <button class="place__like-button"></button>
             </div>
           </li>
 
@@ -77,7 +77,7 @@
             />
             <div class="place__description">
               <h2 class="place__name">Гора Эльбрус</h2>
-              <div class="place__like-button"></div>
+              <button class="place__like-button"></button>
             </div>
           </li>
 
@@ -85,7 +85,7 @@
             <img class="place__photo" src="./images/Dombay.jpg" alt="Домбай" />
             <div class="place__description">
               <h2 class="place__name">Домбай</h2>
-              <div class="place__like-button"></div>
+              <button class="place__like-button"></button>
             </div>
           </li>
 
@@ -97,7 +97,7 @@
             />
             <div class="place__description">
               <h2 class="place__name">Карачаево-Черкесия</h2>
-              <div class="place__like-button"></div>
+              <button class="place__like-button"></button>
             </div>
           </li>
         </ul>
@@ -106,23 +106,25 @@
       <div class="popup">
         <div class="popup__container">
           <h3 class="popup__action">Редактировать профиль</h3>
-          <div class="popup__input-fields">
-            <input
-              class="popup__input popup__input_profile_name"
-              type="text"
-              name="Name"
-              placeholder="Имя"
-            />
-            <input
-              class="popup__input popup__input_profile_about"
-              type="text"
-              name="About"
-              placeholder="О себе"
-            />
-          </div>
-          <button class="popup__save-button" type="submit" name="save-button">
-            Сохранить
-          </button>
+          <form class="popup__form" name="profileEditForm">
+            <div class="popup__input-fields">
+              <input
+                class="popup__input popup__input_profile_name"
+                type="text"
+                name="NameInput"
+                placeholder="Имя"
+              />
+              <input
+                class="popup__input popup__input_profile_about"
+                type="text"
+                name="AboutInput"
+                placeholder="О себе"
+              />
+            </div>
+            <button class="popup__save-button" type="submit" name="save-button">
+              Сохранить
+            </button>
+          </form>
           <button class="popup__close-button" name="close-button"></button>
         </div>
       </div>

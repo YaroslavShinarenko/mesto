@@ -6,6 +6,12 @@
   width: calc(100% - 31.25%);
 }
 
+@media screen and (max-width: 1023px) {
+  .footer {
+    width: calc(100% - 20%);
+  }
+}
+
 @media screen and (max-width: 767px) {
   .footer {
     flex-direction: column;
