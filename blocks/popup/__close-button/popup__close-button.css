@@ -12,6 +12,7 @@
   border: none;
   padding: 0;
   margin: 0;
+  opacity: 1;
 }
 
 @media screen and (max-width: 767px) {
@@ -26,5 +27,6 @@
 
 .popup__close-button:hover {
   cursor: pointer;
+  transition: 0.2s;
   opacity: 0.6;
 }

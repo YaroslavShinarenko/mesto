@@ -13,6 +13,7 @@
   overflow: visible;
   margin-right: 18px;
   margin-left: 18px;
+  opacity: 1;
 }
 
 @media screen and (max-width: 767px) {
@@ -26,6 +27,7 @@
 }
 
 .profile__edit-button:hover {
+  transition: 0.2s;
   opacity: 0.6;
   cursor: pointer;
 }

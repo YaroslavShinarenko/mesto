@@ -32,7 +32,7 @@
           </div>
           <p class="profile__description">Исследователь океана</p>
         </div>
-        <button class="profile__add-button"></button>
+        <button class="profile__place-add-button"></button>
       </section>
 
       <section class="places">
@@ -43,6 +43,7 @@
               src="./images/Karachaevsk.jpg"
               alt="Карачаевск"
             />
+            <button class="place__delete-button"></button>
             <div class="place__description">
               <h2 class="place__name">Карачаевск</h2>
               <button class="place__like-button"></button>
@@ -55,6 +56,7 @@
               src="./images/Elbrus.jpg"
               alt="Гора Эльбрус"
             />
+            <button class="place__delete-button"></button>
             <div class="place__description">
               <h2 class="place__name">Гора Эльбрус</h2>
               <button class="place__like-button"></button>
@@ -62,7 +64,9 @@
           </li>
 
           <li class="place">
+            
             <img class="place__photo" src="./images/Dombay.jpg" alt="Домбай" />
+            <button class="place__delete-button"></button>
             <div class="place__description">
               <h2 class="place__name">Домбай</h2>
               <button class="place__like-button"></button>
@@ -75,6 +79,7 @@
               src="./images/Elbrus.jpg"
               alt="Гора Эльбрус"
             />
+            <button class="place__delete-button"></button>
             <div class="place__description">
               <h2 class="place__name">Гора Эльбрус</h2>
               <button class="place__like-button"></button>
@@ -83,6 +88,7 @@
 
           <li class="place">
             <img class="place__photo" src="./images/Dombay.jpg" alt="Домбай" />
+            <button class="place__delete-button"></button>
             <div class="place__description">
               <h2 class="place__name">Домбай</h2>
               <button class="place__like-button"></button>
@@ -95,6 +101,7 @@
               src="./images/Karachaevsk.jpg"
               alt="Карачаево-Черкесия"
             />
+            <button class="place__delete-button"></button>
             <div class="place__description">
               <h2 class="place__name">Карачаево-Черкесия</h2>
               <button class="place__like-button"></button>
@@ -103,10 +110,10 @@
         </ul>
       </section>
 
-      <div class="popup">
+      <div class="popup" id="profile">
         <div class="popup__container">
           <h3 class="popup__action">Редактировать профиль</h3>
-          <form class="popup__form">
+          <form class="popup__form popup__profile-edit-form">
             <label class="popup__input-label" for="popup__input_profile_name"
               >Имя</label
             >
@@ -114,7 +121,7 @@
               class="popup__input"
               id="popup__input_profile_name"
               type="text"
-              name="NameInput"
+              name="aameInput"
               placeholder="Имя"
             />
             <label class="popup__input-label" for="popup__input_profile_about"
@@ -124,10 +131,40 @@
               class="popup__input popup__input_profile_about"
               id="popup__input_profile_about"
               type="text"
-              name="AboutInput"
+              name="aboutInput"
               placeholder="О себе"
             />
             <button class="popup__save-button" type="submit">Сохранить</button>
+          </form>
+          <button class="popup__close-button"></button>
+        </div>
+      </div>
+
+      <div class="popup" id="place">
+        <div class="popup__container">
+          <h3 class="popup__action">Новое место</h3>
+          <form class="popup__form popup__place-add-form">
+            <label class="popup__input-label" for="popup__input_place_name"
+              >Название</label
+            >
+            <input
+              class="popup__input"
+              id="popup__input_place_name"
+              type="text"
+              name="placeNameInput"
+              placeholder="Название"
+            />
+            <label class="popup__input-label" for="popup__input_place_image-link"
+              >Ссылка на картинку</label
+            >
+            <input
+              class="popup__input popup__input_profile_about"
+              id="popup__input_place_image-link"
+              type="text"
+              name="placeLinkInput"
+              placeholder="Ссылка на картинку"
+            />
+            <button class="popup__save-button" type="submit">Создать</button>
           </form>
           <button class="popup__close-button"></button>
         </div>
@@ -137,6 +174,19 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
+
+    <!-- <template id="place-template">
+      <li class="place">
+        <img
+          class="place__photo"
+          src=""
+          alt=""
+        />
+        <div class="place__description">
+          <h2 class="place__name"></h2>
+          <button class="place__like-button"></button>
+        </div>
+    </template> -->
     <script src="./scripts/script.js"></script>
   </body>
 </html>

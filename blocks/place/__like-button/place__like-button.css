@@ -9,9 +9,11 @@
   margin: 0;
   padding: 0;
   border: none;
+  opacity: 1;
 }
 
 .place__like-button:hover {
+  transition: 0.2s;
   opacity: 0.6;
   cursor: pointer;
 }

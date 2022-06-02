@@ -12,6 +12,7 @@
   border-radius: 2px;
   box-sizing: border-box;
   margin-top: 48px;
+  opacity: 1;
 }
 
 @media screen and (max-width: 767px) {
@@ -22,6 +23,7 @@
 }
 
 .popup__save-button:hover {
+  transition: 0.2s;
   cursor: pointer;
   opacity: 0.8;
 }
