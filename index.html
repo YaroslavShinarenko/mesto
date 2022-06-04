@@ -64,7 +64,6 @@
           </li>
 
           <li class="place">
-            
             <img class="place__photo" src="./images/Dombay.jpg" alt="Домбай" />
             <button class="place__delete-button"></button>
             <div class="place__description">
@@ -136,7 +135,7 @@
             />
             <button class="popup__save-button" type="submit">Сохранить</button>
           </form>
-          <button class="popup__close-button"></button>
+          <button class="popup__close-button" id="close-profile-form"></button>
         </div>
       </div>
 
@@ -154,11 +153,13 @@
               name="placeNameInput"
               placeholder="Название"
             />
-            <label class="popup__input-label" for="popup__input_place_image-link"
+            <label
+              class="popup__input-label"
+              for="popup__input_place_image-link"
               >Ссылка на картинку</label
             >
             <input
-              class="popup__input popup__input_profile_about"
+              class="popup__input popup__input_place_image-link"
               id="popup__input_place_image-link"
               type="text"
               name="placeLinkInput"
@@ -166,7 +167,45 @@
             />
             <button class="popup__save-button" type="submit">Создать</button>
           </form>
-          <button class="popup__close-button"></button>
+          <button
+            class="popup__close-button"
+            id="close-place-add-form"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup" id="place-inspe">
+        <div class="popup__container">
+          <h3 class="popup__action">Новое место</h3>
+          <form class="popup__form popup__place-add-form">
+            <label class="popup__input-label" for="popup__input_place_name"
+              >Название</label
+            >
+            <input
+              class="popup__input"
+              id="popup__input_place_name"
+              type="text"
+              name="placeNameInput"
+              placeholder="Название"
+            />
+            <label
+              class="popup__input-label"
+              for="popup__input_place_image-link"
+              >Ссылка на картинку</label
+            >
+            <input
+              class="popup__input popup__input_place_image-link"
+              id="popup__input_place_image-link"
+              type="text"
+              name="placeLinkInput"
+              placeholder="Ссылка на картинку"
+            />
+            <button class="popup__save-button" type="submit">Создать</button>
+          </form>
+          <button
+            class="popup__close-button"
+            id="close-place-add-form"
+          ></button>
         </div>
       </div>
     </main>
@@ -175,18 +214,16 @@
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
 
-    <!-- <template id="place-template">
+    <template class="place-template">
       <li class="place">
-        <img
-          class="place__photo"
-          src=""
-          alt=""
-        />
+        <img class="place__photo" src="" alt="" />
+        <button class="place__delete-button"></button>
         <div class="place__description">
           <h2 class="place__name"></h2>
           <button class="place__like-button"></button>
-        </div>
-    </template> -->
+        </div></li
+    ></template>
+
     <script src="./scripts/script.js"></script>
   </body>
 </html>
