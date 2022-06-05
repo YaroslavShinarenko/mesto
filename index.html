@@ -37,7 +37,7 @@
 
       <section class="places">
         <ul class="places__list">
-          <li class="place">
+          <!-- <li class="place">
             <img
               class="place__photo"
               src="./images/Karachaevsk.jpg"
@@ -105,11 +105,11 @@
               <h2 class="place__name">Карачаево-Черкесия</h2>
               <button class="place__like-button"></button>
             </div>
-          </li>
+          </li> -->
         </ul>
       </section>
 
-      <div class="popup" id="profile">
+      <div class="popup popup_profile">
         <div class="popup__container">
           <h3 class="popup__action">Редактировать профиль</h3>
           <form class="popup__form popup__profile-edit-form">
@@ -117,7 +117,7 @@
               >Имя</label
             >
             <input
-              class="popup__input"
+              class="popup__input popup__input_profile_name"
               id="popup__input_profile_name"
               type="text"
               name="aameInput"
@@ -133,22 +133,29 @@
               name="aboutInput"
               placeholder="О себе"
             />
-            <button class="popup__save-button" type="submit">Сохранить</button>
+            <button
+              class="popup__save-button popup__edit-profile-button"
+              type="submit"
+            >
+              Сохранить
+            </button>
           </form>
-          <button class="popup__close-button" id="close-profile-form"></button>
+          <button
+            class="popup__close-button popup__close-profile-form-button"
+          ></button>
         </div>
       </div>
 
-      <div class="popup" id="place">
+      <div class="popup popup_place">
         <div class="popup__container">
           <h3 class="popup__action">Новое место</h3>
           <form class="popup__form popup__place-add-form">
-            <label class="popup__input-label" for="popup__input_place_name"
+            <label class="popup__input-label" for="popup__input_place-name"
               >Название</label
             >
             <input
-              class="popup__input"
-              id="popup__input_place_name"
+              class="popup__input popup__input_place-name"
+              id="popup__input_place-name"
               type="text"
               name="placeNameInput"
               placeholder="Название"
@@ -165,11 +172,15 @@
               name="placeLinkInput"
               placeholder="Ссылка на картинку"
             />
-            <button class="popup__save-button" type="submit">Создать</button>
+            <button
+              class="popup__save-button popup__create-place-button"
+              type="submit"
+            >
+              Создать
+            </button>
           </form>
           <button
-            class="popup__close-button"
-            id="close-place-add-form"
+            class="popup__close-button popup__close-place-add-form-button"
           ></button>
         </div>
       </div>

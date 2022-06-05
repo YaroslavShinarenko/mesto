@@ -1,10 +1,14 @@
 let profileName = document.querySelector(".profile__name");
 let profileAbout = document.querySelector(".profile__description");
-let profileForm = document.querySelector("#profile");
-let placeAddForm = document.querySelector("#place");
+let profileForm = document.querySelector(".popup_profile");
+let placeAddForm = document.querySelector(".popup_place");
 
-let closeProfileFormButton = document.querySelector("#close-profile-form");
-let closePlaceAddButton = document.querySelector("#close-place-add-form");
+let closeProfileFormButton = document.querySelector(
+  ".popup__close-profile-form-button"
+);
+let closePlaceAddButton = document.querySelector(
+  ".popup__close-place-add-form-button"
+);
 let likeButtons = document.querySelectorAll(".place__like-button");
 let placeAddButton = document.querySelector(".profile__place-add-button");
 let profileEditButton = document.querySelector(".profile__edit-button");
@@ -25,24 +29,11 @@ function popProfileForm() {
 closeProfileFormButton.addEventListener("click", popProfileForm);
 profileEditButton.addEventListener("click", popProfileForm);
 
-////// PLACE ADD FORM /////
-
-function popPlaceAddForm() {
-  if (placeAddForm.classList.contains("popup_active")) {
-    placeAddForm.classList.remove("popup_active");
-  } else {
-    placeAddForm.classList.add("popup_active");
-  }
-}
-
-closePlaceAddButton.addEventListener("click", popPlaceAddForm);
-placeAddButton.addEventListener("click", popPlaceAddForm);
-
 ////// PROFILE FORM SUBMIT /////
 
 let editForm = document.querySelector(".popup__profile-edit-form");
-let nameInput = document.querySelector("#popup__input_profile_name");
-let aboutInput = document.querySelector("#popup__input_profile_about");
+let nameInput = document.querySelector(".popup__input_profile_name");
+let aboutInput = document.querySelector(".popup__input_profile_about");
 
 function profileFormSubmitHandler(evt) {
   evt.preventDefault();
@@ -57,23 +48,6 @@ function profileFormSubmitHandler(evt) {
 }
 
 editForm.addEventListener("submit", profileFormSubmitHandler);
-
-////// PLACE ADD FORM SUBMIT /////
-
-let addForm = document.querySelector(".popup__place-add-form");
-let placeNameInput = document.querySelector("#popup__input_place_name");
-let placeLinkInput = document.querySelector("#popup__input_place_image-link");
-
-function placeAddFormSubmitHandler(evt) {
-  evt.preventDefault();
-
-  let newPlace = placeNameInput.value;
-  let newLink = placeLinkInput.value;
-
-  popPlaceAddForm();
-}
-
-addForm.addEventListener("submit", placeAddFormSubmitHandler);
 
 ////// PLACES ARRAY /////
 
@@ -104,38 +78,94 @@ const places = [
   },
 ];
 
-const placesListItem = document.querySelector(".places__list");
-
 ////// PLACES RENDER /////
 
-function renderPlaceCards(data) {
-  data.forEach((item) => renderItem(item));
-}
+const placesListItem = document.querySelector(".places__list");
+const placeTemplate = document.querySelector(".place-template").content;
 
-function renderItem(data) {
-  const placeTemplate = document.querySelector(".place-template").content;
+places.forEach(function (element) {
   const placeItem = placeTemplate.cloneNode(true);
-  const placeLink = placeItem.querySelector(".place__photo");
-  const placeName = placeItem.querySelector(".place__name");
 
-  placeLink.src = places[0].link;
-  placeName.textContent = places[0].name;
+  placeItem.querySelector(".place__photo").src = element.link;
+  placeItem.querySelector(".place__name").textContent = element.name;
   placesListItem.append(placeItem);
-}
-
-renderPlaceCards(places);
+});
 
 ////// SET LIKE /////
 
-for (let likeButton of likeButtons) {
-  likeButton.addEventListener("click", setLike);
-}
+// for (let likeButton of likeButtons) {
+//   likeButton.addEventListener("click", setLike);
+// }
 
-function setLike() {
-  let likeButton = this;
-  if (likeButton.classList.contains("place__like-button_active")) {
-    likeButton.classList.remove("place__like-button_active");
+// function setLike() {
+//   let likeButton = this;
+//   if (likeButton.classList.contains("place__like-button_active")) {
+//     likeButton.classList.remove("place__like-button_active");
+//   } else {
+//     likeButton.classList.add("place__like-button_active");
+//   }
+// }
+
+////// POP PLACE ADD FORM /////
+
+function popPlaceAddForm() {
+  if (placeAddForm.classList.contains("popup_active")) {
+    placeAddForm.classList.remove("popup_active");
   } else {
-    likeButton.classList.add("place__like-button_active");
+    placeAddForm.classList.add("popup_active");
   }
 }
+
+closePlaceAddButton.addEventListener("click", popPlaceAddForm);
+placeAddButton.addEventListener("click", popPlaceAddForm);
+
+////// PLACE ADD /////
+
+function addPlace(placeNameValue, placeLinkValue) {
+  placeItem = placeTemplate.cloneNode(true);
+
+  placeItem.querySelector(".place__photo").src = placeLinkValue;
+  placeItem.querySelector(".place__name").textContent = placeNameValue;
+
+  placeItem
+    .querySelector(".place__like-button")
+    .addEventListener("click", function (evt) {
+      evt.target.classList.toggle("place__like-button_active");
+    });
+
+  placesListItem.append(placeItem);
+}
+
+const createPlaceAddButton = document.querySelector(
+  ".popup__create-place-button"
+);
+
+createPlaceAddButton.addEventListener("click", function () {
+  const name = document.querySelector(".popup__input_place-name");
+  const link = document.querySelector(".popup__input_place_image-link");
+
+  addPlace(name.value, link.value);
+
+  name.value = "";
+  link.value = "";
+});
+
+////// PLACE ADD FORM SUBMIT /////
+
+let addForm = document.querySelector(".popup__place-add-form");
+let placeNameInput = document.querySelector(".popup__input_place-name");
+let placeLinkInput = document.querySelector(".popup__input_place_image-link");
+
+function placeAddFormSubmitHandler(evt) {
+  evt.preventDefault();
+
+  let newPlaceName;
+  let newPlaceLink;
+
+  placeNameValue = newPlaceName;
+  placeLinkValue = newPlaceLink;
+
+  popPlaceAddForm();
+}
+
+addForm.addEventListener("submit", placeAddFormSubmitHandler);
