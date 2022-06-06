@@ -23,7 +23,7 @@
 @import url(../blocks/place/__like-button/_active/place__like-button_active.css);
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/_active/popup_active.css);
-@import url(../blocks/popup/_dark/popup_dark.css);
+@import url(../blocks/popup/_place-inspector/popup_place-inspector.css);
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__action/popup__action.css);
 @import url(../blocks/popup/__form/popup__form.css);
