@@ -3,4 +3,12 @@
   flex-direction: column;
   width: 282px;
   position: relative;
+  transform: scale(1);
+  transition: 0.3s;
+}
+
+
+.place:hover {
+  cursor: pointer;
+  transform: scale(1.02);
 }

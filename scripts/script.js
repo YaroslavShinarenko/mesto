@@ -32,26 +32,26 @@ const createPlaceButton = document.querySelector(
 
 ////// PROFILE FORM OPENER /////
 
-function popupOpen(popup) {
+function openPopup(popup) {
     popup.classList.add("popup_active");
 }
 
-function popupClose(event) {
-  let popupCloseButtonElement = event.target;
-  let popupItemElement = popupCloseButtonElement.closest(".popup");
+function closePopup(event) {
+  let closePopupButtonElement = event.target;
+  let popupItemElement = closePopupButtonElement.closest(".popup");
   popupItemElement.classList.remove("popup_active");
 }
 
 
-function popProfileForm() {
+function openProfileForm() {
   nameInput.value = profileName.textContent;
   aboutInput.value = profileAbout.textContent;
 
-  popupOpen(profileForm);
+  openPopup(profileForm);
 }
 
-closeProfileFormButton.addEventListener("click", popupClose);
-profileEditButton.addEventListener("click", popProfileForm);
+closeProfileFormButton.addEventListener("click", closePopup);
+profileEditButton.addEventListener("click", openProfileForm);
 
 ////// PROFILE FORM SUBMIT /////
 
@@ -66,7 +66,7 @@ function profileFormSubmitHandler(evt) {
 
 }
 
-profileSaveButton.addEventListener("click", popupClose);
+profileSaveButton.addEventListener("click", closePopup);
 editForm.addEventListener("submit", profileFormSubmitHandler);
 
 ////// 1 /////
@@ -110,12 +110,12 @@ const places = [
  * @description делаем попап видимым на странице и скрываем его при сабмите или закрытиии
  */
 
-function popPlaceAddForm() {
-  popupOpen(placeAddForm);
+function openPlaceAddform() {
+  openPopup(placeAddForm);
 }
 
-closePlaceAddButton.addEventListener("click", popupClose);
-placeAddButton.addEventListener("click", popPlaceAddForm);
+closePlaceAddButton.addEventListener("click", closePopup);
+placeAddButton.addEventListener("click", openPlaceAddform);
 
 /*
  * @description по кнопке сабмита "создать" добавляется карточка с введенными парамметрами name и link
@@ -146,7 +146,7 @@ function placeAddFormSubmitHandler(evt) {
  
 }
 
-createPlaceButton.addEventListener("click", popupClose);
+createPlaceButton.addEventListener("click", closePopup);
 addPlaceForm.addEventListener("submit", placeAddFormSubmitHandler);
 
 ////// 3, 4, 5 /////
@@ -167,13 +167,13 @@ function removePlaceItem(event) {
  * @arg renderingPlaces - это массив элементы которого будут отрендерены
  */
 
-function cardsRender(renderingPlaces) {
+function renderCards(renderingPlaces) {
   renderingPlaces.forEach(function (element) {
     renderPlace(element.name, element.link);
   });
 }
 
-cardsRender(places);
+renderCards(places);
 
 ////// PLACE ADD /////
 
@@ -201,7 +201,7 @@ function renderPlace(placeNameValue, placeLinkValue) {
   placeItem
     .querySelector(".place__photo")
     .addEventListener("click", function () {
-      placeInspectorOpen(placeNameValue, placeLinkValue);
+      openPlaceInspector(placeNameValue, placeLinkValue);
     });
 
   placesListItem.prepend(placeItem);
@@ -214,7 +214,7 @@ function renderPlace(placeNameValue, placeLinkValue) {
  * @description открывает попап с картинкой и названием из карточки
  */
 
-function placeInspectorOpen(name, link) {
+function openPlaceInspector(name, link) {
   let placeImageFull = name;
   let placeAbout = link;
 
@@ -224,7 +224,7 @@ function placeInspectorOpen(name, link) {
   placeInspectorImage.src = link;
   placeInspectorName.textContent = name;
 
-  popupOpen(placeInspector);
+  openPopup(placeInspector);
 }
 
-closePlaceInspectorButton.addEventListener("click", popupClose);
+closePlaceInspectorButton.addEventListener("click", closePopup);
