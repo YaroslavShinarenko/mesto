@@ -9,7 +9,7 @@ let editForm = document.querySelector(".popup__profile-edit-form");
 let nameInput = document.querySelector(".popup__input_profile_name");
 let aboutInput = document.querySelector(".popup__input_profile_about");
 
-let addForm = document.querySelector(".popup__place-add-form");
+let addPlaceForm = document.querySelector(".popup__place-add-form");
 let placeNameInput = document.querySelector(".popup__input_place-name");
 let placeLinkInput = document.querySelector(".popup__input_place_image-link");
 
@@ -26,34 +26,37 @@ let likeButtons = document.querySelectorAll(".place__like-button");
 let placeAddButton = document.querySelector(".profile__place-add-button");
 let profileEditButton = document.querySelector(".profile__edit-button");
 let popupCloseButton = document.querySelector(".popup__close-button");
-
+const profileSaveButton = document.querySelector(".popup__button");
 const placesListItem = document.querySelector(".places__list");
 const placeTemplate = document.querySelector(".place-template").content;
 
-const createPlaceAddButton = document.querySelector(
+const createPlaceButton = document.querySelector(
   ".popup__create-place-button"
 );
 
 ////// PROFILE FORM OPENER /////
 
-function popupToggle(popup) {
-  if (popup.classList.contains("popup_active")) {
-    popup.classList.remove("popup_active");
-  } else {
+function popupOpen(popup) {
     popup.classList.add("popup_active");
-  }
 }
 
-function popupClose() {}
+function popupClose(event) {
+  let popupCloseButtonElement = event.target;
+  let popupItemElement = popupCloseButtonElement.closest(".popup");
+  popupItemElement.classList.remove("popup_active");
+  console.log('click');
+}
+
+popupCloseButton.addEventListener("click", popupClose);
 
 function popProfileForm() {
   nameInput.value = profileName.textContent;
   aboutInput.value = profileAbout.textContent;
 
-  popupToggle(profileForm);
+  popupOpen(profileForm);
 }
 
-closeProfileFormButton.addEventListener("click", popProfileForm);
+closeProfileFormButton.addEventListener("click", popupClose);
 profileEditButton.addEventListener("click", popProfileForm);
 
 ////// PROFILE FORM SUBMIT /////
@@ -67,9 +70,9 @@ function profileFormSubmitHandler(evt) {
   profileName.textContent = newName;
   profileAbout.textContent = newAbout;
 
-  popProfileForm();
 }
 
+profileSaveButton.addEventListener("click", popupClose);
 editForm.addEventListener("submit", profileFormSubmitHandler);
 
 ////// 1 /////
@@ -114,10 +117,10 @@ const places = [
  */
 
 function popPlaceAddForm() {
-  popupToggle(placeAddForm);
+  popupOpen(placeAddForm);
 }
 
-closePlaceAddButton.addEventListener("click", popPlaceAddForm);
+closePlaceAddButton.addEventListener("click", popupClose);
 placeAddButton.addEventListener("click", popPlaceAddForm);
 
 /*
@@ -125,7 +128,7 @@ placeAddButton.addEventListener("click", popPlaceAddForm);
  */
 
 function addPlaceOnSubmit() {
-  createPlaceAddButton.addEventListener("click", function () {
+  createPlaceButton.addEventListener("click", function () {
     const name = document.querySelector(".popup__input_place-name");
     const link = document.querySelector(".popup__input_place_image-link");
 
@@ -146,11 +149,11 @@ addPlaceOnSubmit();
 
 function placeAddFormSubmitHandler(evt) {
   evt.preventDefault();
-
-  popPlaceAddForm();
+ 
 }
 
-addForm.addEventListener("submit", placeAddFormSubmitHandler);
+createPlaceButton.addEventListener("click", popupClose);
+addPlaceForm.addEventListener("submit", placeAddFormSubmitHandler);
 
 ////// 3, 4, 5 /////
 ////// PLACES RENDER /////
@@ -227,7 +230,7 @@ function placeInspectorOpen(name, link) {
   placeInspectorImage.src = link;
   placeInspectorName.textContent = name;
 
-  popupToggle(placeInspector);
+  popupOpen(placeInspector);
 }
 
-closePlaceInspectorButton.addEventListener("click", placeInspectorOpen);
+closePlaceInspectorButton.addEventListener("click", popupClose);
