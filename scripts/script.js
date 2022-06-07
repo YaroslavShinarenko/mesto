@@ -1,31 +1,27 @@
-let profileName = document.querySelector(".profile__name");
-let profileAbout = document.querySelector(".profile__description");
-let profileForm = document.querySelector(".popup_profile");
-let placeAddForm = document.querySelector(".popup_place");
-let placeInspector = document.querySelector(".popup_place-inspector");
-let popup = document.querySelector(".popup");
+const profileName = document.querySelector(".profile__name");
+const profileAbout = document.querySelector(".profile__description");
+const profileForm = document.querySelector(".popup_profile");
+const placeAddForm = document.querySelector(".popup_place");
+const placeInspector = document.querySelector(".popup_place-inspector");
+const popup = document.querySelector(".popup");
+const editForm = document.querySelector(".popup__profile-edit-form");
+const nameInput = document.querySelector(".popup__input_profile_name");
+const aboutInput = document.querySelector(".popup__input_profile_about");
+const addPlaceForm = document.querySelector(".popup__place-add-form");
+const placeNameInput = document.querySelector(".popup__input_place-name");
+const placeLinkInput = document.querySelector(".popup__input_place_image-link");
 
-let editForm = document.querySelector(".popup__profile-edit-form");
-let nameInput = document.querySelector(".popup__input_profile_name");
-let aboutInput = document.querySelector(".popup__input_profile_about");
-
-let addPlaceForm = document.querySelector(".popup__place-add-form");
-let placeNameInput = document.querySelector(".popup__input_place-name");
-let placeLinkInput = document.querySelector(".popup__input_place_image-link");
-
-let closeProfileFormButton = document.querySelector(
+const closeProfileFormButton = document.querySelector(
   ".popup__close-profile-form-button"
 );
-let closePlaceAddButton = document.querySelector(
+const closePlaceAddButton = document.querySelector(
   ".popup__close-place-add-form-button"
 );
-let closePlaceInspectorButton = document.querySelector(
+const closePlaceInspectorButton = document.querySelector(
   ".popup__close-place-inspector-button"
 );
-let likeButtons = document.querySelectorAll(".place__like-button");
-let placeAddButton = document.querySelector(".profile__place-add-button");
-let profileEditButton = document.querySelector(".profile__edit-button");
-let popupCloseButton = document.querySelector(".popup__close-button");
+const placeAddButton = document.querySelector(".profile__place-add-button");
+const profileEditButton = document.querySelector(".profile__edit-button");
 const profileSaveButton = document.querySelector(".popup__button");
 const placesListItem = document.querySelector(".places__list");
 const placeTemplate = document.querySelector(".place-template").content;
@@ -44,10 +40,8 @@ function popupClose(event) {
   let popupCloseButtonElement = event.target;
   let popupItemElement = popupCloseButtonElement.closest(".popup");
   popupItemElement.classList.remove("popup_active");
-  console.log('click');
 }
 
-popupCloseButton.addEventListener("click", popupClose);
 
 function popProfileForm() {
   nameInput.value = profileName.textContent;
