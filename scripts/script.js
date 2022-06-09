@@ -90,17 +90,6 @@ placeAddButton.addEventListener("click", openPlaceAddform);
  * @description по кнопке сабмита "создать" добавляется карточка с введенными парамметрами name и link
  */
 
-function addPlaceOnSubmit() {
-  placeCreateButton.addEventListener("click", function () {
-    renderCard(placeName.value, placeLink.value);
-
-    placeName.value = "";
-    placeLink.value = "";
-  });
-}
-
-addPlaceOnSubmit();
-
 ////// PLACE ADD FORM SUBMIT /////
 
 /*
@@ -109,7 +98,14 @@ addPlaceOnSubmit();
 
 function placeAddFormSubmitHandler(evt) {
   evt.preventDefault();
+
+  renderCard(placeName.value, placeLink.value);
+
+  placeName.value = "";
+  placeLink.value = "";
+
   closePopup(placeAddForm);
+  placesListItem.prepend(placeItem);
 }
 
 formAddPlace.addEventListener("submit", placeAddFormSubmitHandler);
@@ -128,18 +124,6 @@ function removePlaceItem(event) {
 }
 
 /*
- * @description функция делает кнопку лайка активной
- */
-
-function setLike() {
-  placeItem
-    .querySelector(".place__like-button")
-    .addEventListener("click", function (evt) {
-      evt.target.classList.toggle("place__like-button_active");
-    });
-}
-
-/*
  * @description для каждого элемента массива renderingPlaces происходит добавление на страницу
  * @arg renderingPlaces - это массив элементы которого будут отрендерены
  */
@@ -147,6 +131,7 @@ function setLike() {
 function renderCards(renderingPlaces) {
   renderingPlaces.forEach(function (element) {
     renderCard(element.name, element.link);
+    placesListItem.prepend(placeItem);
   });
 }
 
@@ -173,9 +158,11 @@ function renderCard(placeNameValue, placeLinkValue) {
   const removeButtonElement = placeItem.querySelector(".place__delete-button");
   removeButtonElement.addEventListener("click", removePlaceItem);
 
-  setLike();
-
-  placesListItem.prepend(placeItem);
+  placeItem
+    .querySelector(".place__like-button")
+    .addEventListener("click", function (evt) {
+      evt.target.classList.toggle("place__like-button_active");
+    });
 }
 
 ////// 6 /////
