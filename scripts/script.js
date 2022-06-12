@@ -36,15 +36,15 @@ const placeLink = document.querySelector(".popup__input_place_image-link");
 function openPopup(popup) {
   popup.classList.add("popup_active");
 
-  popup.addEventListener("click", closePopupOnClickOutside);
-  popup.addEventListener("keydown", closePopupOnEscape);
+  document.addEventListener("keydown", closePopupOnEscape);
+  document.addEventListener("click", closePopupOnClickOutside);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_active");
 
-  popup.removeEventListener("click", closePopupOnClickOutside);
-  popup.removeEventListener("keydown", closePopupOnEscape);
+  document.removeEventListener("click", closePopupOnClickOutside);
+  document.removeEventListener("keydown", closePopupOnEscape);
 }
 
 function openProfileForm() {
