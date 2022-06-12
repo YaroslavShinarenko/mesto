@@ -1,7 +1,5 @@
 .popup__input-label {
   display: block;
-  height: 48px;
-  margin-bottom: 13px;
 }
 
 .popup__input-label:nth-last-child(2) {
