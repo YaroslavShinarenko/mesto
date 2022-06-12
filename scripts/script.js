@@ -4,6 +4,7 @@ const profileForm = document.querySelector(".popup_type_profile-edit");
 const placeAddForm = document.querySelector(".popup_type_place-add");
 const placeInspector = document.querySelector(".popup_place-inspector");
 const popup = document.querySelector(".popup");
+const popupList = Array.from(document.querySelectorAll(".popup"));
 const formEditProfile = document.querySelector(".popup__profile-edit-form");
 const nameInput = document.querySelector(".popup__input_profile_name");
 const aboutInput = document.querySelector(".popup__input_profile_about");
@@ -34,10 +35,16 @@ const placeLink = document.querySelector(".popup__input_place_image-link");
 
 function openPopup(popup) {
   popup.classList.add("popup_active");
+
+  popup.addEventListener("click", closePopupOnClickOutside);
+  popup.addEventListener("keydown", closePopupOnEscape);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_active");
+
+  popup.removeEventListener("click", closePopupOnClickOutside);
+  popup.removeEventListener("keydown", closePopupOnEscape);
 }
 
 function openProfileForm() {
@@ -55,11 +62,8 @@ profileCloseFormButton.addEventListener("click", () => closePopup(profileForm));
 function profileFormSubmitHandler(evt) {
   evt.preventDefault();
 
-  const newName = nameInput.value;
-  const newAbout = aboutInput.value;
-
-  profileName.textContent = newName;
-  profileAbout.textContent = newAbout;
+  profileName.textContent = nameInput.value;
+  profileAbout.textContent = aboutInput.value;
 
   closePopup(profileForm);
 }
@@ -86,10 +90,6 @@ placeAddCloseFormButton.addEventListener("click", () =>
 );
 placeAddButton.addEventListener("click", openPlaceAddform);
 
-/*
- * @description по кнопке сабмита "создать" добавляется карточка с введенными парамметрами name и link
- */
-
 ////// PLACE ADD FORM SUBMIT /////
 
 /*
@@ -101,8 +101,7 @@ function placeAddFormSubmitHandler(evt) {
 
   renderCard(placeName.value, placeLink.value);
 
-  placeName.value = "";
-  placeLink.value = "";
+  formAddPlace.reset();
 
   closePopup(placeAddForm);
   placesListItem.prepend(placeItem);
@@ -188,3 +187,21 @@ function openPlaceInspector(name, link) {
 placeInspectorCloseButton.addEventListener("click", () =>
   closePopup(placeInspector)
 );
+
+// Создаем функции чтобы любой попап закрыывался нажатием клавиши ESC или кликом вне элемента
+
+function closePopupOnEscape(event) {
+  popupList.forEach((popup) => {
+    if (event.key === "Escape") {
+      closePopup(popup);
+    }
+  });
+}
+
+function closePopupOnClickOutside(event) {
+  popupList.forEach((popup) => {
+    if (event.target === popup) {
+      closePopup(popup);
+    }
+  });
+}
