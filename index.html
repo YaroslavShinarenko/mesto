@@ -46,27 +46,27 @@
             <label class="popup__input-label" for="popup__input_profile_name"
               ><input
                 class="popup__input popup__input_profile_name"
-                id="popup__input_profile_name"
+                id="name-input"
                 type="text"
                 name="nameInput"
                 placeholder="Имя"
                 minlength="2"
                 maxlength="40"
                 required />
-              <span class="popup__error"></span
+              <span class="popup__input-error name-input-error"></span
             ></label>
 
             <label class="popup__input-label" for="popup__input_profile_about"
               ><input
                 class="popup__input popup__input_profile_about"
-                id="popup__input_profile_about"
+                id="about-input"
                 type="text"
                 name="aboutInput"
                 placeholder="О себе"
                 minlength="2"
                 maxlength="200"
                 required />
-              <span class="popup__error"></span
+              <span class="about-input-error popup__input-error"></span
             ></label>
 
             <button
@@ -95,8 +95,9 @@
                 minlength="2"
                 maxlength="30"
                 required
+                id="place-input"
               />
-              <span class="popup__error"></span>
+              <span class="popup__input-error place-input-error"></span>
             </label>
 
             <label
@@ -105,11 +106,12 @@
               ><input
                 class="popup__input popup__input_place_image-link"
                 type="url"
+                id="url-input"
                 name="placeLinkInput"
                 placeholder="Ссылка на картинку"
                 required
               />
-              <span class="popup__error"> </span>
+              <span class="popup__input-error url-input-error"></span>
             </label>
 
             <button

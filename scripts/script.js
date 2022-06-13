@@ -3,7 +3,6 @@ const profileAbout = document.querySelector(".profile__description");
 const profileForm = document.querySelector(".popup_type_profile-edit");
 const placeAddForm = document.querySelector(".popup_type_place-add");
 const placeInspector = document.querySelector(".popup_place-inspector");
-const popup = document.querySelector(".popup");
 const popupList = Array.from(document.querySelectorAll(".popup"));
 const formEditProfile = document.querySelector(".popup__profile-edit-form");
 const nameInput = document.querySelector(".popup__input_profile_name");
@@ -11,7 +10,6 @@ const aboutInput = document.querySelector(".popup__input_profile_about");
 const formAddPlace = document.querySelector(".popup__place-add-form");
 const placeNameInput = document.querySelector(".popup__input_place-name");
 const placeLinkInput = document.querySelector(".popup__input_place_image-link");
-
 const profileCloseFormButton = document.querySelector(
   ".popup__close-profile-form-button"
 );
@@ -28,8 +26,10 @@ const placesListItem = document.querySelector(".places__list");
 const placeTemplate = document.querySelector(".place-template").content;
 
 const placeCreateButton = document.querySelector(".popup__create-place-button");
-const placeName = document.querySelector(".popup__input_place-name");
-const placeLink = document.querySelector(".popup__input_place_image-link");
+
+const placeInspectorImage = document.querySelector(".place-inspector__image");
+const placeInspectorName = document.querySelector(".place-inspector__name");
+const submitButton = document.querySelector(".popup__button");
 
 ////// PROFILE FORM OPENER /////
 
@@ -37,14 +37,14 @@ function openPopup(popup) {
   popup.classList.add("popup_active");
 
   document.addEventListener("keydown", closePopupOnEscape);
-  document.addEventListener("click", closePopupOnClickOutside);
+  document.addEventListener("mousedown", closePopupOnClickOutside);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_active");
 
   document.removeEventListener("click", closePopupOnClickOutside);
-  document.removeEventListener("keydown", closePopupOnEscape);
+  document.removeEventListener("mousedown", closePopupOnEscape);
 }
 
 function openProfileForm() {
@@ -59,7 +59,7 @@ profileCloseFormButton.addEventListener("click", () => closePopup(profileForm));
 
 ////// PROFILE FORM SUBMIT /////
 
-function profileFormSubmitHandler(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
   profileName.textContent = nameInput.value;
@@ -68,7 +68,7 @@ function profileFormSubmitHandler(evt) {
   closePopup(profileForm);
 }
 
-formEditProfile.addEventListener("submit", profileFormSubmitHandler);
+formEditProfile.addEventListener("submit", handleProfileFormSubmit);
 
 /// Отрендерить карточки - динамически добавить на страницу каждую карточку из массива places
 /// добавить на страницу каждую карточку - создать копию темплейт элемента, заполнить его содержимым эллемента массива places, навесить обработчики события для лайка, удаления и просмотра карточки
@@ -83,6 +83,7 @@ formEditProfile.addEventListener("submit", profileFormSubmitHandler);
 
 function openPlaceAddform() {
   openPopup(placeAddForm);
+  validatePopupOnLoad();
 }
 
 placeAddCloseFormButton.addEventListener("click", () =>
@@ -96,18 +97,20 @@ placeAddButton.addEventListener("click", openPlaceAddform);
  * @description отменяет стандартную обработку формы и закрывает окно формы
  */
 
-function placeAddFormSubmitHandler(evt) {
+function handlePlaceAddFormSubmit(evt) {
   evt.preventDefault();
 
-  renderCard(placeName.value, placeLink.value);
+  const placeItem = renderCard(placeNameInput.value, placeLinkInput.value);
+  placesListItem.prepend(placeItem);
+
+  placeCreateButton.classList.add("popup__button_disabled");
+  placeCreateButton.setAttribute("disabled", true);
 
   formAddPlace.reset();
-
   closePopup(placeAddForm);
-  placesListItem.prepend(placeItem);
 }
 
-formAddPlace.addEventListener("submit", placeAddFormSubmitHandler);
+formAddPlace.addEventListener("submit", handlePlaceAddFormSubmit);
 
 ////// 3, 4, 5 /////
 ////// PLACES RENDER /////
@@ -129,7 +132,7 @@ function removePlaceItem(event) {
 
 function renderCards(renderingPlaces) {
   renderingPlaces.forEach(function (element) {
-    renderCard(element.name, element.link);
+    const placeItem = renderCard(element.name, element.link);
     placesListItem.prepend(placeItem);
   });
 }
@@ -145,23 +148,29 @@ renderCards(places);
  */
 
 function renderCard(placeNameValue, placeLinkValue) {
-  placeItem = placeTemplate.cloneNode(true);
-  placeItem.querySelector(".place__photo").src = placeLinkValue;
-  placeItem.querySelector(".place__name").textContent = placeNameValue;
-  placeItem
-    .querySelector(".place__photo")
-    .addEventListener("click", function () {
-      openPlaceInspector(placeNameValue, placeLinkValue);
-    });
+  const placeItem = placeTemplate.cloneNode(true);
+  const placeItemName = placeItem.querySelector(".place__name");
+  const placeItemImage = placeItem.querySelector(".place__photo");
+  const placeItemLikeButton = placeItem.querySelector(".place__like-button");
+  const placeItemRemoveButton = placeItem.querySelector(
+    ".place__delete-button"
+  );
 
-  const removeButtonElement = placeItem.querySelector(".place__delete-button");
-  removeButtonElement.addEventListener("click", removePlaceItem);
+  placeItemName.textContent = placeNameValue;
+  placeItemImage.src = placeLinkValue;
+  placeItemImage.alt = placeNameValue;
 
-  placeItem
-    .querySelector(".place__like-button")
-    .addEventListener("click", function (evt) {
-      evt.target.classList.toggle("place__like-button_active");
-    });
+  placeItemImage.addEventListener("click", function () {
+    openPlaceInspector(placeNameValue, placeLinkValue);
+  });
+
+  placeItemLikeButton.addEventListener("click", function (evt) {
+    evt.target.classList.toggle("place__like-button_active");
+  });
+
+  placeItemRemoveButton.addEventListener("click", removePlaceItem);
+
+  return placeItem;
 }
 
 ////// 6 /////
@@ -172,13 +181,8 @@ function renderCard(placeNameValue, placeLinkValue) {
  */
 
 function openPlaceInspector(name, link) {
-  const placeImageFull = name;
-  const placeAbout = link;
-
-  const placeInspectorImage = document.querySelector(".place-inspector__image");
-  const placeInspectorName = document.querySelector(".place-inspector__name");
-
   placeInspectorImage.src = link;
+  placeInspectorImage.alt = name;
   placeInspectorName.textContent = name;
 
   openPopup(placeInspector);
@@ -191,17 +195,18 @@ placeInspectorCloseButton.addEventListener("click", () =>
 // Создаем функции чтобы любой попап закрыывался нажатием клавиши ESC или кликом вне элемента
 
 function closePopupOnEscape(event) {
-  popupList.forEach((popup) => {
-    if (event.key === "Escape") {
-      closePopup(popup);
-    }
-  });
+  if (event.key === "Escape") {
+    const activePopup = document.querySelector(".popup_active");
+    closePopup(activePopup);
+  }
 }
 
 function closePopupOnClickOutside(event) {
   popupList.forEach((popup) => {
-    if (event.target === popup) {
-      closePopup(popup);
-    }
+    popup.addEventListener("mousedown", (event) => {
+      if (event.target.classList.contains("popup_active")) {
+        closePopup(popup);
+      }
+    });
   });
 }
