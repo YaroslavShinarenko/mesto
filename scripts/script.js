@@ -83,7 +83,6 @@ formEditProfile.addEventListener("submit", handleProfileFormSubmit);
 
 function openPlaceAddform() {
   openPopup(placeAddForm);
-  validatePopupOnLoad();
 }
 
 placeAddCloseFormButton.addEventListener("click", () =>
