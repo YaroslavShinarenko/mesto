@@ -30,6 +30,7 @@ const placeCreateButton = document.querySelector(".popup__create-place-button");
 const placeInspectorImage = document.querySelector(".place-inspector__image");
 const placeInspectorName = document.querySelector(".place-inspector__name");
 const submitButton = document.querySelector(".popup__button");
+const closeButtons = document.querySelectorAll(".popup__close-button");
 
 ////// PROFILE FORM OPENER /////
 
@@ -37,14 +38,13 @@ function openPopup(popup) {
   popup.classList.add("popup_active");
 
   document.addEventListener("keydown", closePopupOnEscape);
-  document.addEventListener("mousedown", closePopupOnClickOutside);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_active");
 
   document.removeEventListener("click", closePopupOnClickOutside);
-  document.removeEventListener("mousedown", closePopupOnEscape);
+  document.removeEventListener("keydown", closePopupOnEscape);
 }
 
 function openProfileForm() {
@@ -55,7 +55,6 @@ function openProfileForm() {
 }
 
 profileEditButton.addEventListener("click", openProfileForm);
-profileCloseFormButton.addEventListener("click", () => closePopup(profileForm));
 
 ////// PROFILE FORM SUBMIT /////
 
@@ -84,11 +83,14 @@ formEditProfile.addEventListener("submit", handleProfileFormSubmit);
 function openPlaceAddform() {
   openPopup(placeAddForm);
 }
-
-placeAddCloseFormButton.addEventListener("click", () =>
-  closePopup(placeAddForm)
-);
 placeAddButton.addEventListener("click", openPlaceAddform);
+
+/// Обработчик события клика на любую кнопку с классом закрытия
+
+closeButtons.forEach((button) => {
+  const popup = button.closest(".popup");
+  button.addEventListener("click", () => closePopup(popup));
+});
 
 ////// PLACE ADD FORM SUBMIT /////
 
@@ -187,10 +189,6 @@ function openPlaceInspector(name, link) {
   openPopup(placeInspector);
 }
 
-placeInspectorCloseButton.addEventListener("click", () =>
-  closePopup(placeInspector)
-);
-
 // Создаем функции чтобы любой попап закрыывался нажатием клавиши ESC или кликом вне элемента
 
 function closePopupOnEscape(event) {
@@ -209,3 +207,5 @@ function closePopupOnClickOutside(event) {
     });
   });
 }
+
+closePopupOnClickOutside();
