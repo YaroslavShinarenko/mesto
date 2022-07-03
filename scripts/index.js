@@ -17,7 +17,9 @@ const placeLinkInput = document.querySelector(".popup__input_place_image-link");
 const placeAddButton = document.querySelector(".profile__place-add-button");
 const profileEditButton = document.querySelector(".profile__edit-button");
 const closeButtons = document.querySelectorAll(".popup__close-button");
-const placeCreateButton = document.querySelector(".popup__create-place-button");
+const placeCreateSubmitButton = document.querySelector(
+  ".popup__create-place-button"
+);
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -29,9 +31,20 @@ export function openPopup(popup) {
 
 ////////////////////////////////////////////////////////////////////////
 
+function hideInputError(popup) {
+  if (popup !== placeAddForm) {
+    profileFormValidator.resetInputErrors();
+  } else {
+    formAddPlaceValidator.resetInputErrors();
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+
 function closePopup(popup) {
   popup.classList.remove("popup_active");
 
+  hideInputError(popup);
   document.removeEventListener("keydown", closePopupOnEscape);
 }
 
@@ -75,6 +88,12 @@ closeButtons.forEach((button) => {
 });
 
 ////////////////////////////////////////////////////////////////////////
+function disableSubmitButton() {
+  placeCreateSubmitButton.classList.add("popup__button_disabled");
+  placeCreateSubmitButton.setAttribute("disabled", true);
+}
+
+////////////////////////////////////////////////////////////////////////
 
 function handlePlaceAddFormSubmit(evt) {
   evt.preventDefault();
@@ -87,8 +106,7 @@ function handlePlaceAddFormSubmit(evt) {
 
   document.querySelector(".places__list").prepend(cardElement);
 
-  placeCreateButton.classList.add("popup__button_disabled");
-  placeCreateButton.setAttribute("disabled", true);
+  disableSubmitButton();
 
   formAddPlace.reset();
   closePopup(placeAddForm);
@@ -128,6 +146,7 @@ const enableValidation = {
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_visible",
+  closeButton: ".popup__close-button",
 };
 
 const formAddPlaceValidator = new FormValidator(enableValidation, placeAddForm);
