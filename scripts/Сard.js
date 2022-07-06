@@ -1,32 +1,18 @@
-import { openPopup } from "./index.js";
-
-const placeInspector = document.querySelector(".popup_place-inspector");
-const placeInspectorImage = document.querySelector(".place-inspector__image");
-const placeInspectorName = document.querySelector(".place-inspector__name");
-
 export class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handlePlaceClick) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handlePlaceClick = handlePlaceClick;
   }
 
   _setLike() {
-    this._element
-      .querySelector(".place__like-button")
+    this._likeButton
       .classList.toggle("place__like-button_active");
   }
 
   _removeCard() {
     this._element.remove();
-  }
-
-  _openPlaceInspector() {
-    placeInspectorImage.alt = this._name;
-    placeInspectorImage.src = this._link;
-    placeInspectorName.textContent = this._name;
-
-    openPopup(placeInspector);
   }
 
   _getTemplate() {
@@ -39,20 +25,22 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._element
-      .querySelector(".place__photo")
+
+    this._likeButton = this._element.querySelector(".place__like-button")
+    this._deleteButton = this._element.querySelector(".place__delete-button")
+    this._photo = this._element.querySelector(".place__photo")
+
+    this._photo
       .addEventListener("click", () => {
-        this._openPlaceInspector();
+        this._handlePlaceClick(this._name, this._link)
       });
 
-    this._element
-      .querySelector(".place__like-button")
+    this._likeButton
       .addEventListener("click", () => {
         this._setLike();
       });
 
-    this._element
-      .querySelector(".place__delete-button")
+    this._deleteButton
       .addEventListener("click", () => {
         this._removeCard();
       });
@@ -63,7 +51,7 @@ export class Card {
     this._setEventListeners();
 
     const placeName = this._element.querySelector(".place__name");
-    const placeLink = this._element.querySelector(".place__photo");
+    const placeLink = this._photo;
 
     placeName.textContent = this._name;
     placeName.alt = this._name;

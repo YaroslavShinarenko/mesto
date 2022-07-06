@@ -49,11 +49,13 @@ export class FormValidator {
     }
   };
 
-  resetInputErrors = () => {
+  resetValidation() {
+    this._toggleButtonState(); 
+
     this._inputList.forEach((inputElement) => {
-      this._hideInputError(inputElement);
+      this._hideInputError(inputElement) 
     });
-  };
+  }
 
   _setEventListeners = () => {
     this._inputList.forEach((inputElement) => {
@@ -65,12 +67,6 @@ export class FormValidator {
   };
 
   enableValidation = () => {
-    const formList = Array.from(
-      document.querySelectorAll(this._settings.formSelector)
-    );
-    formList.forEach((formElement) => {
-      formElement.addEventListener("submit", (event) => event.preventDefault());
-      this._setEventListeners(formElement);
-    });
+      this._setEventListeners();
   };
 }
