@@ -19,7 +19,7 @@ const profileEditButton = document.querySelector(".profile__edit-button");
 const placeInspector = document.querySelector(".popup_place-inspector");
 const placeInspectorImage = document.querySelector(".place-inspector__image");
 const placeInspectorName = document.querySelector(".place-inspector__name");
-const placesList = document.querySelector(".places__list")
+const placesList = document.querySelector(".places__list");
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +43,7 @@ function openProfileForm() {
   nameInput.value = profileName.textContent;
   aboutInput.value = profileAbout.textContent;
 
-  formValidators['profile-form'].resetValidation();
+  formValidators["profile-form"].resetValidation();
 
   openPopup(profileForm);
 }
@@ -78,7 +78,8 @@ formEditProfile.addEventListener("submit", handleProfileFormSubmit);
 function openPlaceAddform() {
   openPopup(placeAddForm);
 
-  formValidators['place-add-form'].resetValidation();
+  formAddPlace.reset();
+  formValidators["place-add-form"].resetValidation();
 }
 
 placeAddButton.addEventListener("click", openPlaceAddform);
@@ -99,7 +100,7 @@ function handlePlaceAddFormSubmit(evt) {
   const name = placeNameInput.value;
   const link = placeLinkInput.value;
 
-  const cardElement = createCard({name, link})
+  const cardElement = createCard({ name, link });
   placesList.prepend(cardElement);
 
   formAddPlace.reset();
@@ -125,8 +126,8 @@ function closePopupOnClickOutside(event) {
       if (event.target.classList.contains("popup_active")) {
         closePopup(popup);
       }
-      if (event.target.classList.contains('popup__close-button')) {
-        closePopup(popup)
+      if (event.target.classList.contains("popup__close-button")) {
+        closePopup(popup);
       }
     });
   });
@@ -146,21 +147,13 @@ const enableValidationObj = {
   closeButton: ".popup__close-button",
 };
 
-// const placeAddFormValidator = new FormValidator(enableValidationObj, placeAddForm);
-// placeAddFormValidator.enableValidation();
-
-// const profileFormValidator = new FormValidator(enableValidationObj, profileForm);
-// profileFormValidator.enableValidation();
-
-
-const formValidators = {}
+const formValidators = {};
 
 const enableValidation = (config) => {
-  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
   formList.forEach((formElement) => {
-    
-    const validator = new FormValidator(config, formElement)
-    const formName = formElement.getAttribute('name')
+    const validator = new FormValidator(config, formElement);
+    const formName = formElement.getAttribute("name");
 
     formValidators[formName] = validator;
     validator.enableValidation();
@@ -168,9 +161,6 @@ const enableValidation = (config) => {
 };
 
 enableValidation(enableValidationObj);
-
-formValidators['place-add-form'].enableValidation()
-formValidators['profile-form'].enableValidation()
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -204,6 +194,6 @@ export const places = [
 ////////////////////////////////////////////////////////////////////////
 
 places.forEach((place) => {
-  const cardElement = createCard(place)
+  const cardElement = createCard(place);
   placesList.prepend(cardElement);
 });
