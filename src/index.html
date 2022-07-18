@@ -6,14 +6,14 @@
     <meta name="description" content="Места России" />
     <meta name="keywords" content="Место, Домбай, Карачаевск, Эльбрус, Гора" />
     <meta name="author" content="Шинкаренко Ярослав" />
-    <link rel="stylesheet" href="./pages/index.css" />
+    <!-- <link rel="stylesheet" href="./pages/index.css" /> -->
     <title>Место</title>
   </head>
   <body class="root">
     <header class="header">
       <img
         class="header__logo"
-        src="./images/Mesto_Russia_logo.svg"
+        src="<%=require('./images/Mesto_Russia_logo.svg')%>"
         alt="Место лого"
       />
     </header>
@@ -21,7 +21,7 @@
     <main class="content">
       <section class="profile">
         <img
-          src="./images/JaqueEvePhoto.jpg"
+          src="<%=require('./images/JaqueEvePhoto.jpg')%>"
           alt="Жак-Ив Кусто"
           class="profile__avatar"
         />
@@ -42,7 +42,10 @@
       <div class="popup popup_type_profile-edit">
         <div class="popup__container">
           <h3 class="popup__action">Редактировать профиль</h3>
-          <form class="popup__form popup__profile-edit-form" name="profile-form">
+          <form
+            class="popup__form popup__profile-edit-form"
+            name="profile-form"
+          >
             <label class="popup__input-label" for="popup__input_profile_name"
               ><input
                 class="popup__input popup__input_profile_name"
@@ -151,6 +154,6 @@
           <button class="place__like-button"></button>
         </div></li
     ></template>
-    <script type="module" src="./scripts/index.js"></script>
+    <!-- <script type="module" src="./scripts/index.js"></script> -->
   </body>
 </html>

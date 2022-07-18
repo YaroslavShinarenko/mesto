@@ -5,11 +5,7 @@ export class UserInfo {
   }
 
   getUserInfo() {
-    this.userData = {};
-    this.userData["nameInput"] = this._name.textContent;
-    this.userData["aboutInput"] = this._about.textContent;
-
-    return this.userData;
+    return { name: this._name.textContent, about: this._about.textContent };
   }
 
   setUserInfo(data) {
