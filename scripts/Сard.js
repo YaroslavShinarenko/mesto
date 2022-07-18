@@ -7,8 +7,7 @@ export class Card {
   }
 
   _setLike() {
-    this._likeButton
-      .classList.toggle("place__like-button_active");
+    this._likeButton.classList.toggle("place__like-button_active");
   }
 
   _removeCard() {
@@ -25,25 +24,21 @@ export class Card {
   }
 
   _setEventListeners() {
+    this._likeButton = this._element.querySelector(".place__like-button");
+    this._deleteButton = this._element.querySelector(".place__delete-button");
+    this._photo = this._element.querySelector(".place__photo");
 
-    this._likeButton = this._element.querySelector(".place__like-button")
-    this._deleteButton = this._element.querySelector(".place__delete-button")
-    this._photo = this._element.querySelector(".place__photo")
+    this._photo.addEventListener("click", () => {
+      this._handlePlaceClick(this._name, this._link);
+    });
 
-    this._photo
-      .addEventListener("click", () => {
-        this._handlePlaceClick(this._name, this._link)
-      });
+    this._likeButton.addEventListener("click", () => {
+      this._setLike();
+    });
 
-    this._likeButton
-      .addEventListener("click", () => {
-        this._setLike();
-      });
-
-    this._deleteButton
-      .addEventListener("click", () => {
-        this._removeCard();
-      });
+    this._deleteButton.addEventListener("click", () => {
+      this._removeCard();
+    });
   }
 
   generateCard() {

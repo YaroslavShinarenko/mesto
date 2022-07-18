@@ -1,16 +1,18 @@
 import { Card } from "./Сard.js";
 import { FormValidator } from "./FormValidator.js";
+import { PopupWithForm } from "./PopupWithForm.js";
+import { PopupWithImage } from "./PopupWithImage.js";
+import { UserInfo } from "./UserInfo.js";
 
 ////////////////////////////////////////////////////////////////////////
 
-const popupList = Array.from(document.querySelectorAll(".popup"));
 const profileName = document.querySelector(".profile__name");
 const profileAbout = document.querySelector(".profile__description");
 const profileForm = document.querySelector(".popup_type_profile-edit");
 const placeAddForm = document.querySelector(".popup_type_place-add");
 const formEditProfile = document.querySelector(".popup__profile-edit-form");
-const nameInput = document.querySelector(".popup__input_profile_name");
-const aboutInput = document.querySelector(".popup__input_profile_about");
+const nameInput = document.querySelector(".popup__input_profile_name").value;
+const aboutInput = document.querySelector(".popup__input_profile_about").value;
 const formAddPlace = document.querySelector(".popup__place-add-form");
 const placeNameInput = document.querySelector(".popup__input_place-name");
 const placeLinkInput = document.querySelector(".popup__input_place_image-link");
@@ -23,66 +25,64 @@ const placesList = document.querySelector(".places__list");
 
 ////////////////////////////////////////////////////////////////////////
 
-export function openPopup(popup) {
-  popup.classList.add("popup_active");
+// function openPopup(popup) {
+//   popup.classList.add("popup_active");
 
-  document.addEventListener("keydown", closePopupOnEscape);
-}
-
-////////////////////////////////////////////////////////////////////////
-
-function closePopup(popup) {
-  popup.classList.remove("popup_active");
-
-  document.removeEventListener("keydown", closePopupOnEscape);
-}
+//   document.addEventListener("keydown", closePopupOnEscape);
+// }
 
 ////////////////////////////////////////////////////////////////////////
 
-function openProfileForm() {
-  nameInput.value = profileName.textContent;
-  aboutInput.value = profileAbout.textContent;
+// function closePopup(popup) {
+//   popup.classList.remove("popup_active");
 
-  formValidators["profile-form"].resetValidation();
+//   document.removeEventListener("keydown", closePopupOnEscape);
+// }
 
-  openPopup(profileForm);
-}
+////////////////////////////////////////////////////////////////////////
 
-profileEditButton.addEventListener("click", openProfileForm);
+// function openProfileForm() {
+//   nameInput.value = profileName.textContent;
+//   aboutInput.value = profileAbout.textContent;
+
+//   formValidators["profile-form"].resetValidation();
+
+//   openPopup(profileForm);
+// }
+
+// profileEditButton.addEventListener("click", openProfileForm);
 
 ////////////////////////////////////////////////////////////////////////
 
 function handlePlaceClick(name, link) {
-  placeInspectorImage.alt = name;
-  placeInspectorImage.src = link;
-  placeInspectorName.textContent = name;
-
-  openPopup(placeInspector);
+  const popupPlaceInspector = new PopupWithImage(placeInspector);
+  popupPlaceInspector.setEventListeners();
+  popupPlaceInspector.open(name, link);
 }
 
 ////////////////////////////////////////////////////////////////////////
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
+// function handleProfileFormSubmit(evt) {
+//   evt.preventDefault();
 
-  profileName.textContent = nameInput.value;
-  profileAbout.textContent = aboutInput.value;
+//   profileName.textContent = nameInput.value;
+//   profileAbout.textContent = aboutInput.value;
 
-  closePopup(profileForm);
-}
+//   closePopup(profileForm);
+// }
 
-formEditProfile.addEventListener("submit", handleProfileFormSubmit);
+// formEditProfile.addEventListener("submit", handleProfileFormSubmit);
 
 ////////////////////////////////////////////////////////////////////////
 
-function openPlaceAddform() {
-  openPopup(placeAddForm);
+// function openPlaceAddform() {
+//   openPopup(placeAddForm);
 
-  formAddPlace.reset();
-  formValidators["place-add-form"].resetValidation();
-}
+//   formAddPlace.reset();
+//   formValidators["place-add-form"].resetValidation();
+// }
 
-placeAddButton.addEventListener("click", openPlaceAddform);
+// placeAddButton.addEventListener("click", openPlaceAddform);
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -94,46 +94,46 @@ function createCard(place) {
 
 ////////////////////////////////////////////////////////////////////////
 
-function handlePlaceAddFormSubmit(evt) {
-  evt.preventDefault();
+// function handlePlaceAddFormSubmit(evt) {
+//   evt.preventDefault();
 
-  const name = placeNameInput.value;
-  const link = placeLinkInput.value;
+//   const name = placeNameInput.value;
+//   const link = placeLinkInput.value;
 
-  const cardElement = createCard({ name, link });
-  placesList.prepend(cardElement);
+//   const cardElement = createCard({ name, link });
+//   placesList.prepend(cardElement);
 
-  formAddPlace.reset();
-  closePopup(placeAddForm);
-}
+//   formAddPlace.reset();
+//   closePopup(placeAddForm);
+// }
 
-formAddPlace.addEventListener("submit", handlePlaceAddFormSubmit);
-
-////////////////////////////////////////////////////////////////////////
-
-function closePopupOnEscape(event) {
-  if (event.key === "Escape") {
-    const activePopup = document.querySelector(".popup_active");
-    closePopup(activePopup);
-  }
-}
+// formAddPlace.addEventListener("submit", handlePlaceAddFormSubmit);
 
 ////////////////////////////////////////////////////////////////////////
 
-function closePopupOnClickOutside(event) {
-  popupList.forEach((popup) => {
-    popup.addEventListener("mousedown", (event) => {
-      if (event.target.classList.contains("popup_active")) {
-        closePopup(popup);
-      }
-      if (event.target.classList.contains("popup__close-button")) {
-        closePopup(popup);
-      }
-    });
-  });
-}
+// function closePopupOnEscape(event) {
+//   if (event.key === "Escape") {
+//     const activePopup = document.querySelector(".popup_active");
+//     closePopup(activePopup);
+//   }
+// }
 
-closePopupOnClickOutside();
+////////////////////////////////////////////////////////////////////////
+
+// function closePopupOnClickOutside(event) {
+//   popupList.forEach((popup) => {
+//     popup.addEventListener("mousedown", (event) => {
+//       if (event.target.classList.contains("popup_active")) {
+//         closePopup(popup);
+//       }
+//       if (event.target.classList.contains("popup__close-button")) {
+//         closePopup(popup);
+//       }
+//     });
+//   });
+// }
+
+// closePopupOnClickOutside();
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -193,7 +193,87 @@ export const places = [
 
 ////////////////////////////////////////////////////////////////////////
 
-places.forEach((place) => {
-  const cardElement = createCard(place);
+// places.forEach((place) => {
+//   const cardElement = createCard(place);
+//   placesList.prepend(cardElement);
+// });
+
+////////////////////////////////////////////////////////////////////////
+
+class Section {
+  constructor({ data, renderer }, containerSelector) {
+    this._renderedItems = data;
+    this._renderer = renderer;
+
+    this._container = containerSelector;
+  }
+
+  addItem(element) {
+    this._container.prepend(element);
+  }
+
+  renderItems() {
+    this._renderedItems.forEach((item) => {
+      this._renderer(item);
+    });
+  }
+}
+
+////////////////////////////////////////////////////////////////////////
+
+const placesGrid = new Section(
+  {
+    data: places,
+    renderer: (place) => {
+      const cardElement = createCard(place);
+      placesList.prepend(cardElement);
+    },
+  },
+  placesList
+);
+
+placesGrid.renderItems();
+
+////////////////////////////////////////////////////////////////////////
+
+const userData = new UserInfo({ profileName, profileAbout });
+
+const popupEditProfile = new PopupWithForm(profileForm, () => {
+  const data = popupEditProfile._getInputValues();
+  userData.setUserInfo(data);
+});
+
+popupEditProfile.setEventListeners();
+
+profileEditButton.addEventListener("click", () => {
+  popupEditProfile.open();
+  const currentUserData = userData.getUserInfo();
+  console.log(currentUserData);
+  console.log(userData);
+
+  // nameInput.value = profileName.textContent;
+  // aboutInput.value = profileAbout.textContent;
+
+  formValidators["profile-form"].resetValidation();
+});
+
+////////////////////////////////////////////////////////////////////////
+
+const popupPlaceAdd = new PopupWithForm(placeAddForm, () => {
+  const data = popupPlaceAdd._getInputValues();
+  const name = data["placeNameInput"];
+  const link = data["placeLinkInput"];
+
+  const cardElement = createCard({ name, link });
+
   placesList.prepend(cardElement);
 });
+
+popupPlaceAdd.setEventListeners();
+
+placeAddButton.addEventListener("click", () => {
+  popupPlaceAdd.open();
+  formValidators["place-add-form"].resetValidation();
+});
+
+////////////////////////////////////////////////////////////////////////
