@@ -1,29 +1,27 @@
-import { Card } from "./Сard.js";
-import { FormValidator } from "./FormValidator.js";
-import { PopupWithForm } from "./PopupWithForm.js";
-import { PopupWithImage } from "./PopupWithImage.js";
-import { UserInfo } from "./UserInfo.js";
-import { Section } from "./Section.js";
+import { Card } from "../scripts/components/Сard.js";
+import { FormValidator } from "../scripts/components/FormValidator.js";
+import { PopupWithForm } from "../scripts/components/PopupWithForm.js";
+import { PopupWithImage } from "../scripts/components/PopupWithImage.js";
+import { UserInfo } from "../scripts/components/UserInfo.js";
+import { Section } from "../scripts/components/Section.js";
 import {
   places,
   enableValidationObj,
   profileName,
   profileAbout,
-  profileForm,
-  placeAddForm,
   placesList,
   placeAddButton,
   profileEditButton,
-  placeInspector,
   nameInput,
   aboutInput,
-} from "./constants.js";
+} from "../scripts/utils/constants.js";
 
 ////////////////////////////////////////////////////////////////////////
 
+const popupPlaceInspector = new PopupWithImage(".popup_place-inspector");
+popupPlaceInspector.setEventListeners();
+
 function handlePlaceClick(name, link) {
-  const popupPlaceInspector = new PopupWithImage(placeInspector);
-  popupPlaceInspector.setEventListeners();
   popupPlaceInspector.open(name, link);
 }
 
@@ -42,7 +40,7 @@ const placesGrid = new Section(
     data: places,
     renderer: (place) => {
       const cardElement = createCard(place);
-      placesList.prepend(cardElement);
+      placesGrid.addItem(cardElement);
     },
   },
   placesList
@@ -54,8 +52,8 @@ placesGrid.renderItems();
 
 const userData = new UserInfo({ profileName, profileAbout });
 
-const popupEditProfile = new PopupWithForm(profileForm, () => {
-  const data = popupEditProfile._getInputValues();
+const popupEditProfile = new PopupWithForm(".popup_type_profile-edit", () => {
+  const data = popupEditProfile.getInputValues();
   userData.setUserInfo(data);
 });
 
@@ -73,14 +71,13 @@ profileEditButton.addEventListener("click", () => {
 
 ////////////////////////////////////////////////////////////////////////
 
-const popupPlaceAdd = new PopupWithForm(placeAddForm, () => {
-  const data = popupPlaceAdd._getInputValues();
+const popupPlaceAdd = new PopupWithForm(".popup_type_place-add", () => {
+  const data = popupPlaceAdd.getInputValues();
   const name = data["placeNameInput"];
   const link = data["placeLinkInput"];
 
   const cardElement = createCard({ name, link });
-
-  placesList.prepend(cardElement);
+  placesGrid.addItem(cardElement);
 });
 
 popupPlaceAdd.setEventListeners();

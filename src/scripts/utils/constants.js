@@ -37,12 +37,9 @@ const enableValidationObj = {
 
 const profileName = document.querySelector(".profile__name");
 const profileAbout = document.querySelector(".profile__description");
-const profileForm = document.querySelector(".popup_type_profile-edit");
-const placeAddForm = document.querySelector(".popup_type_place-add");
-const placesList = document.querySelector(".places__list");
-const placeAddButton = document.querySelector(".profile__place-add-button");
 const profileEditButton = document.querySelector(".profile__edit-button");
-const placeInspector = document.querySelector(".popup_place-inspector");
+const placeAddButton = document.querySelector(".profile__place-add-button");
+const placesList = document.querySelector(".places__list");
 const nameInput = document.querySelector(".popup__input_profile_name");
 const aboutInput = document.querySelector(".popup__input_profile_about");
 
@@ -51,12 +48,9 @@ export {
   enableValidationObj,
   profileName,
   profileAbout,
-  profileForm,
-  placeAddForm,
-  placesList,
   placeAddButton,
   profileEditButton,
-  placeInspector,
   nameInput,
   aboutInput,
+  placesList,
 };
