@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Места России" />
-    <meta name="keywords" content="Место, Домбай, Карачаевск, Эльбрус, Гора" />
+    <meta name="description" content="Места Мира" />
+    <meta name="keywords" content="Место" />
     <meta name="author" content="Шинкаренко Ярослав" />
-    <!-- <link rel="stylesheet" href="./pages/index.css" /> -->
     <title>Место</title>
   </head>
   <body class="root">
@@ -20,11 +19,9 @@
 
     <main class="content">
       <section class="profile">
-        <img
-          src="<%=require('./images/JaqueEvePhoto.jpg')%>"
-          alt="Жак-Ив Кусто"
-          class="profile__avatar"
-        />
+        <button class="profile__avatar-button">
+          <img src="" alt="Аватар" class="profile__avatar" />
+        </button>
         <div class="profile__info">
           <div class="profile__name-edit-wrapper">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -51,7 +48,7 @@
                 class="popup__input popup__input_profile_name"
                 id="name-input"
                 type="text"
-                name="nameInput"
+                name="name-input"
                 placeholder="Имя"
                 minlength="2"
                 maxlength="40"
@@ -64,7 +61,7 @@
                 class="popup__input popup__input_profile_about"
                 id="about-input"
                 type="text"
-                name="aboutInput"
+                name="about-input"
                 placeholder="О себе"
                 minlength="2"
                 maxlength="200"
@@ -85,6 +82,38 @@
         </div>
       </div>
 
+      <div class="popup popup_type_change-avatar">
+        <div class="popup__container">
+          <h3 class="popup__action">Обновить аватар</h3>
+          <form
+            class="popup__form popup__avatar-change-form"
+            name="change-avatar-form"
+          >
+            <label class="popup__input-label" for="popup__input_new-avatar_link"
+              ><input
+                class="popup__input popup__input_new-avatar_link"
+                type="url"
+                id="url-input"
+                name="new-avatar-link-input"
+                placeholder="Ссылка на аватар"
+                required
+              />
+              <span class="popup__input-error url-input-error"></span>
+            </label>
+
+            <button
+              class="popup__button popup__create-place-button"
+              type="submit"
+            >
+              Сохранить
+            </button>
+          </form>
+          <button
+            class="popup__close-button popup__close-place-add-form-button"
+          ></button>
+        </div>
+      </div>
+
       <div class="popup popup_type_place-add">
         <div class="popup__container">
           <h3 class="popup__action">Новое место</h3>
@@ -93,7 +122,7 @@
               ><input
                 class="popup__input popup__input_place-name"
                 type="text"
-                name="placeNameInput"
+                name="place-name-input"
                 placeholder="Название"
                 minlength="2"
                 maxlength="30"
@@ -110,7 +139,7 @@
                 class="popup__input popup__input_place_image-link"
                 type="url"
                 id="url-input"
-                name="placeLinkInput"
+                name="place-link-input"
                 placeholder="Ссылка на картинку"
                 required
               />
@@ -139,6 +168,21 @@
           ></button>
         </div>
       </div>
+
+      <div class="popup popup_type_delete-place-card">
+        <div class="popup__container">
+          <h3 class="popup__action">Вы уверены?</h3>
+          <button
+            class="popup__button popup__delete-place-button"
+            type="submit"
+          >
+            Да
+          </button>
+          <button
+            class="popup__close-button popup__close-place-delete-button"
+          ></button>
+        </div>
+      </div>
     </main>
 
     <footer class="footer">
@@ -151,9 +195,9 @@
         <button class="place__delete-button"></button>
         <div class="place__description">
           <h2 class="place__name"></h2>
-          <button class="place__like-button"></button>
-        </div></li
-    ></template>
-    <!-- <script type="module" src="./scripts/index.js"></script> -->
+          <button class="place__like-button">0</button>
+        </div>
+      </li></template
+    >
   </body>
 </html>

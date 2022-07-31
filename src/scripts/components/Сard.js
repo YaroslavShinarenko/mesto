@@ -1,12 +1,29 @@
 export class Card {
-  constructor(data, cardSelector, handlePlaceClick) {
+  constructor(
+    data,
+    cardSelector,
+    handlePlaceClick,
+    handlePlaceDeleteClick,
+    api,
+    currentUserId
+  ) {
     this._name = data.name;
     this._link = data.link;
+    this._likeCounter = data.likes.length;
+    this._id = data._id;
+    this._api = api;
+    this._currentUserId = currentUserId;
     this._cardSelector = cardSelector;
     this._handlePlaceClick = handlePlaceClick;
+    this._handlePlaceDeleteClick = handlePlaceDeleteClick;
+    this._likeIsActive = data.likes.some((user) => {
+      if (currentUserId === user._id) {
+        return true;
+      }
+    });
   }
 
-  _setLike() {
+  _toggleLike() {
     this._likeButton.classList.toggle("place__like-button_active");
   }
 
@@ -33,11 +50,34 @@ export class Card {
     });
 
     this._likeButton.addEventListener("click", () => {
-      this._setLike();
+      this._toggleLike();
+      if (this._likeIsActive) {
+        this._likeCounter--;
+        this._likeButton.textContent = this._likeCounter;
+        this._api
+          .removeLike(this._id)
+          .then(() => {
+            this._likeIsActive = false;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this._likeCounter++;
+        this._likeButton.textContent = this._likeCounter;
+        this._api
+          .setLike(this._id)
+          .then(() => {
+            this._likeIsActive = true;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     });
 
     this._deleteButton.addEventListener("click", () => {
-      this._removeCard();
+      this._handlePlaceDeleteClick(this._element, this._id);
     });
   }
 
@@ -51,6 +91,11 @@ export class Card {
     placeName.textContent = this._name;
     placeName.alt = this._name;
     placeLink.src = this._link;
+    this._element.id = this._id;
+    this._likeButton.textContent = this._likeCounter;
+    if (this._likeIsActive) {
+      this._likeButton.classList.add("place__like-button_active");
+    }
 
     return this._element;
   }
