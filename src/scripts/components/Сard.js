@@ -21,14 +21,13 @@ export class Card {
       if (data.likes.length !== 0) {
         if (currentUserId === user._id) {
           return true;
-        } 
+        }
       }
     });
   }
 
   _toggleLike() {
     this._likeButton.classList.toggle("place__like-button_active");
-
   }
 
   _removeCard() {
@@ -60,8 +59,8 @@ export class Card {
         this._api
           .removeLike(this._id)
           .then(() => {
-            this._likeIsActive = false;
             this._toggleLike();
+            this._likeIsActive = false;
           })
           .catch((err) => {
             console.log(err);
@@ -72,8 +71,8 @@ export class Card {
         this._api
           .setLike(this._id)
           .then(() => {
-            this._likeIsActive = true;
             this._toggleLike();
+            this._likeIsActive = true;
           })
           .catch((err) => {
             console.log(err);
@@ -93,12 +92,11 @@ export class Card {
     const placeName = this._element.querySelector(".place__name");
     const placeLink = this._photo;
 
+    this._element.id = this._id;
     placeName.textContent = this._name;
     placeName.alt = this._name;
     placeLink.src = this._link;
-    this._element.id = this._id;
 
-    
     this._likeButton.textContent = this._likeCounter;
 
     if (this._likeIsActive) {

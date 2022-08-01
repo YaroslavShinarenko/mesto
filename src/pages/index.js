@@ -85,19 +85,24 @@ function createCard(data) {
 
 let placesGrid = null;
 
-api.getPlaceCards().then((items) => {
-  placesGrid = new Section(
-    {
-      data: items.reverse(),
-      renderer: (place) => {
-        const cardElement = createCard(place);
-        placesGrid.addItem(cardElement);
+api
+  .getPlaceCards()
+  .then((cards) => {
+    placesGrid = new Section(
+      {
+        data: cards.reverse(),
+        renderer: (card) => {
+          const cardElement = createCard(card);
+          placesGrid.addItem(cardElement);
+        },
       },
-    },
-    placesList
-  );
-  placesGrid.renderItems();
-});
+      placesList
+    );
+    placesGrid.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -111,15 +116,16 @@ function handlePlaceClick(name, link) {
 const popupDeleteCardConfirmation = new PopupWithConfirmation(
   ".popup_type_delete-place-card",
   (removingCard, cardId) => {
-    api.deletePlaceCard(cardId).then(() => {
-    })
-    .then(() => removingCard.remove())
-    .then(() => {
-      popupDeleteCardConfirmation.close();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    api
+      .deletePlaceCard(cardId)
+      .then(() => {})
+      .then(() => removingCard.remove())
+      .then(() => {
+        popupDeleteCardConfirmation.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 );
 popupDeleteCardConfirmation.setEventListeners();
@@ -141,8 +147,8 @@ const popupEditProfile = new PopupWithForm(".popup_type_profile-edit", () => {
     .catch((err) => {
       console.log(err);
     })
-    .finally(()=> {
-      popupEditProfile.renderLoading(false, 'Сохранить')
+    .finally(() => {
+      popupEditProfile.renderLoading(false, "Сохранить");
     });
 });
 
@@ -173,8 +179,8 @@ const popupEditAvatar = new PopupWithForm(".popup_type_change-avatar", () => {
     .catch((err) => {
       console.log(err);
     })
-    .finally(()=>{
-      popupEditAvatar.renderLoading(false, 'Сохранить')
+    .finally(() => {
+      popupEditAvatar.renderLoading(false, "Сохранить");
     });
 });
 
@@ -194,7 +200,6 @@ const popupPlaceAdd = new PopupWithForm(".popup_type_place-add", () => {
     .then((res) => {
       const cardElement = createCard(res);
       placesGrid.addItem(cardElement);
-      placesGrid.renderItem(cardElement);
     })
     .then(() => {
       popupPlaceAdd.close();
@@ -202,9 +207,9 @@ const popupPlaceAdd = new PopupWithForm(".popup_type_place-add", () => {
     .catch((err) => {
       console.log(err);
     })
-    .finally(()=>{
-      popupPlaceAdd.renderLoading(false, 'Создать')
-    })
+    .finally(() => {
+      popupPlaceAdd.renderLoading(false, "Создать");
+    });
 });
 
 popupPlaceAdd.setEventListeners();
@@ -215,4 +220,3 @@ placeAddButton.addEventListener("click", () => {
 });
 
 ////////////////////////////////////////////////////////////////////////
-

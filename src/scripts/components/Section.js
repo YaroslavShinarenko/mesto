@@ -2,16 +2,11 @@ export class Section {
   constructor({ data, renderer }, container) {
     this._renderedItems = data;
     this._renderer = renderer;
-
     this._container = container;
   }
 
   addItem(item) {
     this._container.prepend(item);
-  }
-
-  renderItem(item) {
-    this._renderer(item);
   }
 
   renderItems() {
