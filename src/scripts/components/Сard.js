@@ -9,22 +9,26 @@ export class Card {
   ) {
     this._name = data.name;
     this._link = data.link;
-    this._likeCounter = data.likes.length;
     this._id = data._id;
     this._api = api;
+    this._ownerId = data.owner._id;
     this._currentUserId = currentUserId;
     this._cardSelector = cardSelector;
     this._handlePlaceClick = handlePlaceClick;
     this._handlePlaceDeleteClick = handlePlaceDeleteClick;
+    this._likeCounter = data.likes.length;
     this._likeIsActive = data.likes.some((user) => {
-      if (currentUserId === user._id) {
-        return true;
+      if (data.likes.length !== 0) {
+        if (currentUserId === user._id) {
+          return true;
+        } 
       }
     });
   }
 
   _toggleLike() {
     this._likeButton.classList.toggle("place__like-button_active");
+
   }
 
   _removeCard() {
@@ -50,7 +54,6 @@ export class Card {
     });
 
     this._likeButton.addEventListener("click", () => {
-      this._toggleLike();
       if (this._likeIsActive) {
         this._likeCounter--;
         this._likeButton.textContent = this._likeCounter;
@@ -58,6 +61,7 @@ export class Card {
           .removeLike(this._id)
           .then(() => {
             this._likeIsActive = false;
+            this._toggleLike();
           })
           .catch((err) => {
             console.log(err);
@@ -69,6 +73,7 @@ export class Card {
           .setLike(this._id)
           .then(() => {
             this._likeIsActive = true;
+            this._toggleLike();
           })
           .catch((err) => {
             console.log(err);
@@ -92,9 +97,16 @@ export class Card {
     placeName.alt = this._name;
     placeLink.src = this._link;
     this._element.id = this._id;
+
+    
     this._likeButton.textContent = this._likeCounter;
+
     if (this._likeIsActive) {
       this._likeButton.classList.add("place__like-button_active");
+    }
+
+    if (this._ownerId === this._currentUserId) {
+      this._deleteButton.classList.add("place__delete-button_visible");
     }
 
     return this._element;

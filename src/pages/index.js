@@ -97,7 +97,6 @@ api.getPlaceCards().then((items) => {
     placesList
   );
   placesGrid.renderItems();
-  console.log(items);
 });
 
 ////////////////////////////////////////////////////////////////////////
@@ -112,9 +111,15 @@ function handlePlaceClick(name, link) {
 const popupDeleteCardConfirmation = new PopupWithConfirmation(
   ".popup_type_delete-place-card",
   (removingCard, cardId) => {
-    api.deletePlaceCard(cardId).then(() => removingCard.remove());
-    console.log(removingCard);
-    console.log(cardId);
+    api.deletePlaceCard(cardId).then(() => {
+    })
+    .then(() => removingCard.remove())
+    .then(() => {
+      popupDeleteCardConfirmation.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 );
 popupDeleteCardConfirmation.setEventListeners();
@@ -131,9 +136,13 @@ const popupEditProfile = new PopupWithForm(".popup_type_profile-edit", () => {
     .editProfile(data)
     .then(() => {
       userData.setUserInfo(data);
+      popupEditProfile.close();
     })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(()=> {
+      popupEditProfile.renderLoading(false, 'Сохранить')
     });
 });
 
@@ -151,22 +160,28 @@ profileEditButton.addEventListener("click", () => {
 
 ////////////////////////////////////////////////////////////////////////
 
-const popupChangeAvatar = new PopupWithForm(".popup_type_change-avatar", () => {
-  const data = popupChangeAvatar.getInputValues();
+const popupEditAvatar = new PopupWithForm(".popup_type_change-avatar", () => {
+  const data = popupEditAvatar.getInputValues();
   api
     .editAvatar(data)
     .then(() => {
       userData.setUserAvatar(data);
     })
+    .then(() => {
+      popupEditAvatar.close();
+    })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(()=>{
+      popupEditAvatar.renderLoading(false, 'Сохранить')
     });
 });
 
-popupChangeAvatar.setEventListeners();
+popupEditAvatar.setEventListeners();
 
 avatarChangeButton.addEventListener("click", () => {
-  popupChangeAvatar.open();
+  popupEditAvatar.open();
   formValidators["change-avatar-form"].resetValidation();
 });
 
@@ -181,10 +196,15 @@ const popupPlaceAdd = new PopupWithForm(".popup_type_place-add", () => {
       placesGrid.addItem(cardElement);
       placesGrid.renderItem(cardElement);
     })
-
+    .then(() => {
+      popupPlaceAdd.close();
+    })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(()=>{
+      popupPlaceAdd.renderLoading(false, 'Создать')
+    })
 });
 
 popupPlaceAdd.setEventListeners();
@@ -195,3 +215,4 @@ placeAddButton.addEventListener("click", () => {
 });
 
 ////////////////////////////////////////////////////////////////////////
+

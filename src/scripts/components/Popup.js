@@ -3,6 +3,7 @@ export class Popup {
     this._popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleClickOutsideClose = this._handleClickOutsideClose.bind(this);
+    this._submitButton = this._popup.querySelector('.popup__button')
   }
 
   open() {
@@ -13,6 +14,15 @@ export class Popup {
   close() {
     this._popup.classList.remove("popup_active");
     document.removeEventListener("keydown", this._handleEscClose);
+  }
+
+  renderLoading(isLoading, text) {
+    if (isLoading) {
+      this._submitButton.textContent = text;
+    }
+    else {
+      this._submitButton.textContent = text;
+    } 
   }
 
   _handleEscClose(event) {
@@ -29,6 +39,7 @@ export class Popup {
       this.close();
     }
   }
+
 
   setEventListeners() {
     this._popup.addEventListener("mousedown", this._handleClickOutsideClose);
