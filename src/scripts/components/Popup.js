@@ -19,9 +19,11 @@ export class Popup {
   renderLoading(isLoading, text) {
     if (isLoading) {
       this._submitButton.textContent = text;
+      this._submitButton.style.pointerEvents = "none"
     }
     else {
       this._submitButton.textContent = text;
+      this._submitButton.removeAttribute('style')
     } 
   }
 

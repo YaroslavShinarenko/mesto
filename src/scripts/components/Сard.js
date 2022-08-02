@@ -4,30 +4,32 @@ export class Card {
     cardSelector,
     handlePlaceClick,
     handlePlaceDeleteClick,
-    api,
     currentUserId
   ) {
     this._name = data.name;
     this._link = data.link;
     this._id = data._id;
-    this._api = api;
     this._ownerId = data.owner._id;
     this._currentUserId = currentUserId;
     this._cardSelector = cardSelector;
     this._handlePlaceClick = handlePlaceClick;
     this._handlePlaceDeleteClick = handlePlaceDeleteClick;
     this._likeCounter = data.likes.length;
-    this._likeIsActive = data.likes.some((user) => {
-      if (data.likes.length !== 0) {
-        if (currentUserId === user._id) {
-          return true;
-        }
-      }
-    });
+    this._likes = data.likes;
   }
 
-  _toggleLike() {
-    this._likeButton.classList.toggle("place__like-button_active");
+  addLike() {
+    this.likeButton.classList.add("place__like-button_active");
+    this.likeIsActive = true;
+    this._likeCounter++;
+    this.likeButton.textContent = this._likeCounter;
+  }
+
+  deleteLike() {
+    this.likeButton.classList.remove("place__like-button_active");
+    this.likeIsActive = false;
+    this._likeCounter--;
+    this.likeButton.textContent = this._likeCounter;
   }
 
   _removeCard() {
@@ -44,40 +46,12 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._likeButton = this._element.querySelector(".place__like-button");
+    this.likeButton = this._element.querySelector(".place__like-button");
     this._deleteButton = this._element.querySelector(".place__delete-button");
     this._photo = this._element.querySelector(".place__photo");
 
     this._photo.addEventListener("click", () => {
       this._handlePlaceClick(this._name, this._link);
-    });
-
-    this._likeButton.addEventListener("click", () => {
-      if (this._likeIsActive) {
-        this._likeCounter--;
-        this._likeButton.textContent = this._likeCounter;
-        this._api
-          .removeLike(this._id)
-          .then(() => {
-            this._toggleLike();
-            this._likeIsActive = false;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        this._likeCounter++;
-        this._likeButton.textContent = this._likeCounter;
-        this._api
-          .setLike(this._id)
-          .then(() => {
-            this._toggleLike();
-            this._likeIsActive = true;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
     });
 
     this._deleteButton.addEventListener("click", () => {
@@ -97,10 +71,16 @@ export class Card {
     placeName.alt = this._name;
     placeLink.src = this._link;
 
-    this._likeButton.textContent = this._likeCounter;
+    this.likeButton.textContent = this._likeCounter;
 
-    if (this._likeIsActive) {
-      this._likeButton.classList.add("place__like-button_active");
+    this.likeIsActive = this._likes.some((user) => {
+      if (this._currentUserId === user._id) {
+        return true;
+      }
+    });
+
+    if (this.likeIsActive) {
+      this.likeButton.classList.add("place__like-button_active");
     }
 
     if (this._ownerId === this._currentUserId) {

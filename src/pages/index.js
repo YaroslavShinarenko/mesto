@@ -74,35 +74,59 @@ function createCard(data) {
     ".place-template",
     handlePlaceClick,
     handlePlaceDeleteClick,
-    api,
     userData.getId()
   );
   const cardElement = card.generateCard();
-  return cardElement;
+  return {cardElement:cardElement, card: card};
 }
 
 ////////////////////////////////////////////////////////////////////////
 
 let placesGrid = null;
+const cardInstances = [];
 
 api
   .getPlaceCards()
   .then((cards) => {
+
     placesGrid = new Section(
       {
         data: cards.reverse(),
         renderer: (card) => {
-          const cardElement = createCard(card);
-          placesGrid.addItem(cardElement);
+          const cardElementsAndCard = createCard(card);
+          placesGrid.addItem(cardElementsAndCard.cardElement);
+          cardInstances.push(cardElementsAndCard.card)
         },
       },
       placesList
     );
     placesGrid.renderItems();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+
+    cardInstances.forEach((card) => {
+      card.likeButton.addEventListener('click', () => {
+          if (card.likeIsActive) {
+            api
+              .removeLike(card._id)
+              .then(() => {
+                card.deleteLike();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
+            api
+              .setLike(card._id)
+              .then(() => {
+                card.addLike();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        })
+      })
+    }); 
+  
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -113,15 +137,18 @@ function handlePlaceClick(name, link) {
   popupPlaceInspector.open(name, link);
 }
 
+function handlePlaceDeleteClick(card, cardId) {
+  popupDeleteCardConfirmation.open(card, cardId);
+}
+
 const popupDeleteCardConfirmation = new PopupWithConfirmation(
   ".popup_type_delete-place-card",
   (removingCard, cardId) => {
     api
       .deletePlaceCard(cardId)
-      .then(() => {})
-      .then(() => removingCard.remove())
       .then(() => {
-        popupDeleteCardConfirmation.close();
+        removingCard.remove()
+        popupDeleteCardConfirmation.close()
       })
       .catch((err) => {
         console.log(err);
@@ -129,10 +156,6 @@ const popupDeleteCardConfirmation = new PopupWithConfirmation(
   }
 );
 popupDeleteCardConfirmation.setEventListeners();
-
-function handlePlaceDeleteClick(card, cardId) {
-  popupDeleteCardConfirmation.open(card, cardId);
-}
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -172,8 +195,6 @@ const popupEditAvatar = new PopupWithForm(".popup_type_change-avatar", () => {
     .editAvatar(data)
     .then(() => {
       userData.setUserAvatar(data);
-    })
-    .then(() => {
       popupEditAvatar.close();
     })
     .catch((err) => {
@@ -197,11 +218,32 @@ const popupPlaceAdd = new PopupWithForm(".popup_type_place-add", () => {
   const data = popupPlaceAdd.getInputValues();
   api
     .addPlaceCard(data)
-    .then((res) => {
-      const cardElement = createCard(res);
-      placesGrid.addItem(cardElement);
-    })
-    .then(() => {
+    .then((card) => {
+      const cardElementsAndCard = createCard(card);
+      placesGrid.addItem(cardElementsAndCard.cardElement);
+      const newCard = cardElementsAndCard.card;
+      
+      newCard.likeButton.addEventListener('click', () => {
+        if (newCard.likeIsActive) {
+          api
+          .removeLike(newCard._id)
+          .then(() => {
+            newCard.deleteLike();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        } else {
+          api
+          .setLike(newCard._id)
+          .then(() => {
+            newCard.addLike();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        }
+      })
       popupPlaceAdd.close();
     })
     .catch((err) => {

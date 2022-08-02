@@ -43,7 +43,7 @@
             class="popup__form popup__profile-edit-form"
             name="profile-form"
           >
-            <label class="popup__input-label" for="popup__input_profile_name"
+            <label class="popup__input-label" 
               ><input
                 class="popup__input popup__input_profile_name"
                 id="name-input"
@@ -56,7 +56,7 @@
               <span class="popup__input-error name-input-error"></span
             ></label>
 
-            <label class="popup__input-label" for="popup__input_profile_about"
+            <label class="popup__input-label" 
               ><input
                 class="popup__input popup__input_profile_about"
                 id="about-input"
@@ -89,7 +89,7 @@
             class="popup__form popup__avatar-change-form"
             name="change-avatar-form"
           >
-            <label class="popup__input-label" for="popup__input_new-avatar_link"
+            <label class="popup__input-label" 
               ><input
                 class="popup__input popup__input_new-avatar_link"
                 type="url"
@@ -98,7 +98,7 @@
                 placeholder="Ссылка на аватар"
                 required
               />
-              <span class="popup__input-error url-input-error"></span>
+              <span class="popup__input-error avatar-url-input-error"></span>
             </label>
 
             <button
@@ -118,7 +118,7 @@
         <div class="popup__container">
           <h3 class="popup__action">Новое место</h3>
           <form class="popup__form popup__place-add-form" name="place-add-form">
-            <label class="popup__input-label" for="popup__input_place-name"
+            <label class="popup__input-label"
               ><input
                 class="popup__input popup__input_place-name"
                 type="text"
@@ -134,7 +134,6 @@
 
             <label
               class="popup__input-label"
-              for="popup__input_place_image-link"
               ><input
                 class="popup__input popup__input_place_image-link"
                 type="url"
@@ -143,7 +142,7 @@
                 placeholder="Ссылка на картинку"
                 required
               />
-              <span class="popup__input-error url-input-error"></span>
+              <span class="popup__input-error place-url-input-error"></span>
             </label>
 
             <button
@@ -171,13 +170,18 @@
 
       <div class="popup popup_type_delete-place-card">
         <div class="popup__container">
-          <h3 class="popup__action">Вы уверены?</h3>
-          <button
-            class="popup__button popup__delete-place-button"
-            type="submit"
+          <h3 class="popup__action popup__action_confirm">Вы уверены?</h3>
+          <form
+          class="popup__form popup__delete-card-confirm-form"
+          name="delete-card-confirm-form"
           >
-            Да
-          </button>
+            <button
+              class="popup__button popup__delete-card-button"
+              type="submit"
+            >
+              Да
+            </button>
+          </form>
           <button
             class="popup__close-button popup__close-place-delete-button"
           ></button>
