@@ -54,20 +54,6 @@ const userData = new UserInfo({ profileName, profileAbout, profileAvatar });
 
 ////////////////////////////////////////////////////////////////////////
 
-api
-  .getProfileData()
-  .then((data) => {
-    profileName.textContent = data.name;
-    profileAbout.textContent = data.about;
-    profileAvatar.src = data.avatar;
-    userData.setId(data._id);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-////////////////////////////////////////////////////////////////////////
-
 function createCard(data) {
   const card = new Card(
     data,
@@ -82,16 +68,53 @@ function createCard(data) {
 
 ////////////////////////////////////////////////////////////////////////
 
-let placesGrid = null;
-const cardInstances = [];
+function handleClickLikeButton(card) {
+  card.likeButton.addEventListener('click', () => {
+    if (card.likeIsActive) {
+      api
+      .removeLike(card._id)
+      .then(() => {
+        card.deleteLike();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    } else {
+      api
+      .setLike(card._id)
+      .then(() => {
+        card.addLike();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  })
+}
 
-api
-  .getPlaceCards()
-  .then((cards) => {
+////////////////////////////////////////////////////////////////////////
+
+let placesGrid = null;
+
+Promise.all([ 
+  api.getProfileData(),
+  api.getPlaceCards()
+])
+.then((values) => { 
+
+  const profileData = values[0]
+  const placeCards = values[1]
+
+  profileName.textContent = profileData.name;
+  profileAbout.textContent = profileData.about;
+  profileAvatar.src = profileData.avatar;
+  userData.setId(profileData._id);
+
+  const cardInstances = [];
 
     placesGrid = new Section(
       {
-        data: cards.reverse(),
+        data: placeCards.reverse(),
         renderer: (card) => {
           const cardElementsAndCard = createCard(card);
           placesGrid.addItem(cardElementsAndCard.cardElement);
@@ -100,33 +123,15 @@ api
       },
       placesList
     );
-    placesGrid.renderItems();
+  placesGrid.renderItems();
 
-    cardInstances.forEach((card) => {
-      card.likeButton.addEventListener('click', () => {
-          if (card.likeIsActive) {
-            api
-              .removeLike(card._id)
-              .then(() => {
-                card.deleteLike();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          } else {
-            api
-              .setLike(card._id)
-              .then(() => {
-                card.addLike();
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-        })
-      })
-    }); 
-  
+  cardInstances.forEach((card) => {
+    handleClickLikeButton(card);
+  })
+})
+.catch((err) => {
+  console.log(err);
+}) 
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -223,27 +228,8 @@ const popupPlaceAdd = new PopupWithForm(".popup_type_place-add", () => {
       placesGrid.addItem(cardElementsAndCard.cardElement);
       const newCard = cardElementsAndCard.card;
       
-      newCard.likeButton.addEventListener('click', () => {
-        if (newCard.likeIsActive) {
-          api
-          .removeLike(newCard._id)
-          .then(() => {
-            newCard.deleteLike();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        } else {
-          api
-          .setLike(newCard._id)
-          .then(() => {
-            newCard.addLike();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        }
-      })
+      handleClickLikeButton(newCard);
+
       popupPlaceAdd.close();
     })
     .catch((err) => {
