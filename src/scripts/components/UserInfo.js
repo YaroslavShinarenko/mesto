@@ -21,6 +21,12 @@ export class UserInfo {
     this._id = id;
   }
 
+  getUserData(data) {
+    this._name.textContent = data.name;
+    this._about.textContent = data.about;
+    this._avatar.src = data.avatar;
+  }
+
   setUserInfo(data) {
     this._name.textContent = data["name-input"];
     this._about.textContent = data["about-input"];

@@ -3,8 +3,10 @@ export class Card {
     data,
     cardSelector,
     handlePlaceClick,
-    handlePlaceDeleteClick,
-    currentUserId
+    currentUserId,{
+    handleLikeClick,
+    handleDeleteIconClick
+    }
   ) {
     this._name = data.name;
     this._link = data.link;
@@ -13,7 +15,8 @@ export class Card {
     this._currentUserId = currentUserId;
     this._cardSelector = cardSelector;
     this._handlePlaceClick = handlePlaceClick;
-    this._handlePlaceDeleteClick = handlePlaceDeleteClick;
+    this._handleLikeClick = handleLikeClick;
+    this._handleDeleteIconClick = handleDeleteIconClick;
     this._likeCounter = data.likes.length;
     this._likes = data.likes;
   }
@@ -54,8 +57,12 @@ export class Card {
       this._handlePlaceClick(this._name, this._link);
     });
 
+    this.likeButton .addEventListener("click", () => {
+      this._handleLikeClick(this._id, this.likeIsActive);
+    });
+
     this._deleteButton.addEventListener("click", () => {
-      this._handlePlaceDeleteClick(this._element, this._id);
+      this._handleDeleteIconClick(this._element, this._id);
     });
   }
 

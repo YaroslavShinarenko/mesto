@@ -18,6 +18,7 @@ import {
   aboutInput,
   avatarChangeButton,
 } from "../scripts/utils/constants.js";
+import { data } from "autoprefixer";
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -59,37 +60,47 @@ function createCard(data) {
     data,
     ".place-template",
     handlePlaceClick,
-    handlePlaceDeleteClick,
-    userData.getId()
+    userData.getId(),
+    {
+      handleLikeClick: (cardId) => {
+        if (card.likeIsActive) {
+          api
+          .removeLike(cardId)
+          .then(() => {
+            card.deleteLike();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        } else {
+          api
+          .setLike(cardId)
+          .then(() => {
+            card.addLike();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        }
+      },
+      handleDeleteIconClick: (removingCard) => {
+        popupDeleteCardConfirmation.open(removingCard, removingCard.id);
+
+        popupDeleteCardConfirmation.setEventListeners((api) => {
+          api
+          .deletePlaceCard(removingCard.id)
+          .then(() => {
+            removingCard.remove()
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        });
+      }
+    }
   );
   const cardElement = card.generateCard();
-  return {cardElement:cardElement, card: card};
-}
-
-////////////////////////////////////////////////////////////////////////
-
-function handleClickLikeButton(card) {
-  card.likeButton.addEventListener('click', () => {
-    if (card.likeIsActive) {
-      api
-      .removeLike(card._id)
-      .then(() => {
-        card.deleteLike();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    } else {
-      api
-      .setLike(card._id)
-      .then(() => {
-        card.addLike();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-  })
+  return cardElement;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -100,34 +111,23 @@ Promise.all([
   api.getProfileData(),
   api.getPlaceCards()
 ])
-.then((values) => { 
+.then(([data, cards]) => { 
 
-  const profileData = values[0]
-  const placeCards = values[1]
-
-  profileName.textContent = profileData.name;
-  profileAbout.textContent = profileData.about;
-  profileAvatar.src = profileData.avatar;
-  userData.setId(profileData._id);
-
-  const cardInstances = [];
+  userData.getUserData(data)
+  userData.setId(data._id);
 
     placesGrid = new Section(
       {
-        data: placeCards.reverse(),
+        data: cards.reverse(),
         renderer: (card) => {
-          const cardElementsAndCard = createCard(card);
-          placesGrid.addItem(cardElementsAndCard.cardElement);
-          cardInstances.push(cardElementsAndCard.card)
+          const cardElement = createCard(card);
+          placesGrid.addItem(cardElement);
         },
       },
       placesList
     );
   placesGrid.renderItems();
 
-  cardInstances.forEach((card) => {
-    handleClickLikeButton(card);
-  })
 })
 .catch((err) => {
   console.log(err);
@@ -142,26 +142,11 @@ function handlePlaceClick(name, link) {
   popupPlaceInspector.open(name, link);
 }
 
-function handlePlaceDeleteClick(card, cardId) {
-  popupDeleteCardConfirmation.open(card, cardId);
-}
-
 const popupDeleteCardConfirmation = new PopupWithConfirmation(
-  ".popup_type_delete-place-card",
-  (removingCard, cardId) => {
-    api
-      .deletePlaceCard(cardId)
-      .then(() => {
-        removingCard.remove()
-        popupDeleteCardConfirmation.close()
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  ".popup_type_delete-place-card"
 );
-popupDeleteCardConfirmation.setEventListeners();
 
+// popupDeleteCardConfirmation.setEventListeners();
 ////////////////////////////////////////////////////////////////////////
 
 const popupEditProfile = new PopupWithForm(".popup_type_profile-edit", () => {
@@ -224,12 +209,9 @@ const popupPlaceAdd = new PopupWithForm(".popup_type_place-add", () => {
   api
     .addPlaceCard(data)
     .then((card) => {
-      const cardElementsAndCard = createCard(card);
-      placesGrid.addItem(cardElementsAndCard.cardElement);
-      const newCard = cardElementsAndCard.card;
+      const cardElement = createCard(card);
+      placesGrid.addItem(cardElement);
       
-      handleClickLikeButton(newCard);
-
       popupPlaceAdd.close();
     })
     .catch((err) => {
