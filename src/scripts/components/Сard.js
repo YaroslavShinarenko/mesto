@@ -2,8 +2,9 @@ export class Card {
   constructor(
     data,
     cardSelector,
-    handlePlaceClick,
-    currentUserId,{
+    currentUserId,
+    {
+    handleCardClick,
     handleLikeClick,
     handleDeleteIconClick
     }
@@ -14,7 +15,7 @@ export class Card {
     this._ownerId = data.owner._id;
     this._currentUserId = currentUserId;
     this._cardSelector = cardSelector;
-    this._handlePlaceClick = handlePlaceClick;
+    this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
     this._handleDeleteIconClick = handleDeleteIconClick;
     this._likeCounter = data.likes.length;
@@ -54,7 +55,7 @@ export class Card {
     this._photo = this._element.querySelector(".place__photo");
 
     this._photo.addEventListener("click", () => {
-      this._handlePlaceClick(this._name, this._link);
+      this._handleCardClick(this._name, this._link);
     });
 
     this.likeButton .addEventListener("click", () => {

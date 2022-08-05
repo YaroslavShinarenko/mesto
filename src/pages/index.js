@@ -18,7 +18,6 @@ import {
   aboutInput,
   avatarChangeButton,
 } from "../scripts/utils/constants.js";
-import { data } from "autoprefixer";
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -59,9 +58,13 @@ function createCard(data) {
   const card = new Card(
     data,
     ".place-template",
-    handlePlaceClick,
     userData.getId(),
     {
+      handleCardClick: (name, link) => {
+        popupPlaceInspector.open(name, link);
+        
+        popupPlaceInspector.setEventListeners();
+      },
       handleLikeClick: (cardId) => {
         if (card.likeIsActive) {
           api
@@ -86,17 +89,8 @@ function createCard(data) {
       handleDeleteIconClick: (removingCard) => {
         popupDeleteCardConfirmation.open(removingCard, removingCard.id);
 
-        popupDeleteCardConfirmation.setEventListeners((api) => {
-          api
-          .deletePlaceCard(removingCard.id)
-          .then(() => {
-            removingCard.remove()
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-        });
-      }
+        popupDeleteCardConfirmation.setEventListeners(); 
+      },
     }
   );
   const cardElement = card.generateCard();
@@ -105,7 +99,18 @@ function createCard(data) {
 
 ////////////////////////////////////////////////////////////////////////
 
-let placesGrid = null;
+const placesGrid = new Section(
+  { 
+    renderer: (card) => {
+      const cardElement = createCard(card);
+      placesGrid.addItem(cardElement);
+    },
+  },
+  placesList
+);
+
+////////////////////////////////////////////////////////////////////////
+
 
 Promise.all([ 
   api.getProfileData(),
@@ -116,17 +121,7 @@ Promise.all([
   userData.getUserData(data)
   userData.setId(data._id);
 
-    placesGrid = new Section(
-      {
-        data: cards.reverse(),
-        renderer: (card) => {
-          const cardElement = createCard(card);
-          placesGrid.addItem(cardElement);
-        },
-      },
-      placesList
-    );
-  placesGrid.renderItems();
+placesGrid.renderItems(cards.reverse());
 
 })
 .catch((err) => {
@@ -136,17 +131,19 @@ Promise.all([
 ////////////////////////////////////////////////////////////////////////
 
 const popupPlaceInspector = new PopupWithImage(".popup_place-inspector");
-popupPlaceInspector.setEventListeners();
-
-function handlePlaceClick(name, link) {
-  popupPlaceInspector.open(name, link);
-}
 
 const popupDeleteCardConfirmation = new PopupWithConfirmation(
-  ".popup_type_delete-place-card"
+  ".popup_type_delete-place-card",
+  (removingCard, cardId) =>
+    api
+      .deletePlaceCard(cardId)
+      .then(() => {
+        removingCard.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
 );
-
-// popupDeleteCardConfirmation.setEventListeners();
 ////////////////////////////////////////////////////////////////////////
 
 const popupEditProfile = new PopupWithForm(".popup_type_profile-edit", () => {

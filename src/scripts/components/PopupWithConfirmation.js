@@ -1,20 +1,18 @@
 import { Popup } from "./Popup.js";
 
 export class PopupWithConfirmation extends Popup {
-  constructor(popupSelector) {
+  constructor(popupSelector, handleConfirmation) {
     super(popupSelector);
     this._confirmDeleteButton = this._popup.querySelector(
       ".popup__delete-place-button"
     );
+    this._handleConfirmation = handleConfirmation;
   }
 
-  open(cardId, removingCard) {
+  open(removingCard, cardId) {
     super.open();
     this._removingCard = removingCard;
     this._cardId = cardId;
-  }
-
-  setSubmitAction() {
   }
 
   setEventListeners() {
@@ -22,11 +20,15 @@ export class PopupWithConfirmation extends Popup {
     this._form = this._popup.querySelector(".popup__form");
     this._form.addEventListener("submit", (evt) => {
 
-      this.setSubmitAction();
-      
       evt.preventDefault();
 
-      console.log('Submit')
+      const promise = this._handleConfirmation(
+        this._removingCard,
+        this._cardId
+      );
+      promise.then(() => {
+        this.close();
+      });
     });
   }
 }
